@@ -59,7 +59,7 @@
       left: 0;
       right: 0;
       z-index: 20;
-      padding: 28px 56px;
+      padding: 24px 4vw;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -67,7 +67,7 @@
     }
 
     .wordmark {
-      font-size: 13px;
+      font-size: clamp(0.85rem, 0.95vw, 1.1rem);
       font-weight: 700;
       letter-spacing: 0.22em;
       color: var(--text-secondary);
@@ -87,16 +87,12 @@
       inset: 0;
       display: flex;
       align-items: center;
-      padding: 84px 56px 76px;
+      justify-content: center;
       opacity: 0;
       transform: translateY(14px);
       transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
                   transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
       pointer-events: none;
-    }
-
-    .slide.mirror {
-      justify-content: flex-end;
     }
 
     .slide.active {
@@ -105,21 +101,50 @@
       pointer-events: auto;
     }
 
-    .col-side {
-      width: 100%;
-      max-width: min(530px, 44vw);
+    .slide-stage {
+      width: min(1720px, 92vw);
+      margin: 0 auto;
+      padding: 4.5vh 0;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      justify-content: center;
+    }
+
+    .slide-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3vw;
+      align-items: center;
+      width: 100%;
+    }
+
+    .col-side {
+      width: 100%;
+      max-width: none;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1.1rem, 1.8vh, 1.85rem);
+    }
+
+    .slide.mirror .col-side {
+      grid-column: 2;
     }
 
     .col-full {
-      width: 100%;
-      max-width: 1180px;
+      width: min(1720px, 92vw);
+      max-width: none;
       margin: 0 auto;
+      padding: 4.5vh 0;
       display: flex;
       flex-direction: column;
-      gap: 36px;
+      gap: clamp(1.6rem, 3.2vh, 3.2rem);
+    }
+
+    .section-head {
+      max-width: none;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.75rem, 1.3vh, 1.25rem);
     }
 
     .mono {
@@ -127,7 +152,7 @@
     }
 
     .hero-title {
-      font-size: clamp(60px, 7vw, 104px);
+      font-size: clamp(4.2rem, 6.8vw, 8rem);
       font-weight: 800;
       letter-spacing: -0.045em;
       line-height: 0.94;
@@ -135,23 +160,23 @@
     }
 
     .slide-title {
-      font-size: clamp(30px, 3.2vw, 46px);
+      font-size: clamp(2.4rem, 3.8vw, 4.6rem);
       font-weight: 700;
       letter-spacing: -0.03em;
-      line-height: 1.14;
+      line-height: 1.12;
       color: var(--text);
     }
 
     .lead {
-      font-size: clamp(16px, 1.3vw, 20px);
+      font-size: clamp(1.15rem, 1.35vw, 1.6rem);
       font-weight: 500;
-      line-height: 1.5;
+      line-height: 1.55;
       color: var(--text-secondary);
     }
 
     .body-copy {
-      font-size: 15.5px;
-      line-height: 1.62;
+      font-size: clamp(1.15rem, 1.35vw, 1.6rem);
+      line-height: 1.55;
       color: var(--text-secondary);
     }
 
@@ -160,16 +185,19 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       border-top: 1px solid var(--line);
-      padding-top: 32px;
-      gap: 36px;
+      gap: 0;
     }
 
     .timeline-col {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      padding-right: 16px;
+      gap: clamp(0.75rem, 1.3vh, 1.25rem);
+      padding: clamp(1.5rem, 2.2vw, 2.5rem);
       border-right: 1px solid var(--line);
+    }
+
+    .timeline-col:first-child {
+      padding-left: 0;
     }
 
     .timeline-col:last-child {
@@ -178,7 +206,7 @@
     }
 
     .stage-label {
-      font-size: 12px;
+      font-size: clamp(0.78rem, 0.88vw, 1rem);
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -190,16 +218,16 @@
     }
 
     .timeline-col h3 {
-      font-size: 19px;
+      font-size: clamp(1.25rem, 1.5vw, 1.85rem);
       font-weight: 600;
-      line-height: 1.3;
+      line-height: 1.28;
       letter-spacing: -0.015em;
       color: var(--text);
     }
 
     .timeline-col p {
-      font-size: 14.5px;
-      line-height: 1.62;
+      font-size: clamp(1.02rem, 1.18vw, 1.38rem);
+      line-height: 1.58;
       color: var(--text-secondary);
     }
 
@@ -211,23 +239,23 @@
     }
 
     .divided-item {
-      padding: 18px 0;
+      padding: clamp(0.95rem, 1.7vh, 1.5rem) 0;
       border-bottom: 1px solid var(--line);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 0.45rem;
     }
 
     .divided-item h3 {
-      font-size: 17px;
+      font-size: clamp(1.25rem, 1.5vw, 1.85rem);
       font-weight: 600;
       color: var(--text);
       letter-spacing: -0.01em;
     }
 
     .divided-item p {
-      font-size: 14px;
-      line-height: 1.55;
+      font-size: clamp(1.02rem, 1.18vw, 1.35rem);
+      line-height: 1.52;
       color: var(--text-secondary);
     }
 
@@ -240,23 +268,24 @@
     }
 
     .matrix-cell {
-      padding: 22px 24px;
+      padding: clamp(1.5rem, 2.2vw, 2.5rem);
       border-right: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 0.65rem;
     }
 
     .matrix-cell h3 {
-      font-size: 16px;
+      font-size: clamp(1.25rem, 1.5vw, 1.85rem);
       font-weight: 600;
       color: var(--text);
+      line-height: 1.25;
     }
 
     .matrix-cell p {
-      font-size: 13.5px;
-      line-height: 1.55;
+      font-size: clamp(0.98rem, 1.1vw, 1.28rem);
+      line-height: 1.52;
       color: var(--text-secondary);
     }
 
@@ -265,79 +294,84 @@
       display: grid;
       grid-template-columns: 1fr auto 1fr auto 1fr;
       align-items: start;
-      gap: 20px;
-      padding-top: 28px;
+      gap: 1.5vw;
       border-top: 1px solid var(--line);
+      padding-top: 1.2vh;
     }
 
     .flow-step {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 0.85rem;
+      padding: clamp(1.5rem, 2.2vw, 2.5rem);
+    }
+
+    .flow-step:first-child {
+      padding-left: 0;
     }
 
     .flow-num {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
+      font-size: clamp(0.95rem, 1.1vw, 1.25rem);
       font-weight: 600;
       color: var(--emerald);
     }
 
     .flow-step h3 {
-      font-size: 19px;
+      font-size: clamp(1.25rem, 1.5vw, 1.85rem);
       font-weight: 600;
       letter-spacing: -0.015em;
       color: var(--text);
     }
 
     .flow-step p {
-      font-size: 14.5px;
-      line-height: 1.62;
+      font-size: clamp(1.02rem, 1.18vw, 1.38rem);
+      line-height: 1.58;
       color: var(--text-secondary);
     }
 
     .flow-arrow {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 18px;
+      font-size: clamp(1.25rem, 1.5vw, 1.85rem);
       color: var(--text-muted);
-      padding-top: 28px;
+      padding-top: clamp(2.8rem, 4.2vh, 4rem);
     }
 
     /* Slide 6: Split top header + bottom 2-column comparison */
     .slide-6-wrap {
-      width: 100%;
+      width: min(1720px, 92vw);
+      max-width: none;
       height: 100%;
-      max-width: 1200px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 8px 0;
+      padding: 6.5vh 0 6.5vh;
     }
 
     .slide-6-head {
-      max-width: 620px;
+      max-width: none;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 0.65rem;
     }
 
     .compare-cols {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 48px;
+      gap: 4vw;
       border-top: 1px solid var(--line);
-      padding-top: 24px;
+      padding-top: clamp(1.25rem, 2.2vh, 2rem);
     }
 
     .compare-col {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 0.65rem;
     }
 
     .compare-col h3 {
-      font-size: 19px;
+      font-size: clamp(1.25rem, 1.5vw, 1.85rem);
       font-weight: 600;
       letter-spacing: -0.015em;
       color: var(--text);
@@ -348,8 +382,8 @@
     }
 
     .compare-col p {
-      font-size: 14.5px;
-      line-height: 1.6;
+      font-size: clamp(1.02rem, 1.18vw, 1.38rem);
+      line-height: 1.55;
       color: var(--text-secondary);
     }
 
@@ -364,26 +398,26 @@
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: baseline;
-      gap: 16px;
-      padding: 13px 0;
+      gap: 1.5rem;
+      padding: clamp(0.7rem, 1.3vh, 1.15rem) 0;
       border-bottom: 1px solid var(--line);
     }
 
     .metric-name {
-      font-size: 14.5px;
+      font-size: clamp(1.08rem, 1.25vw, 1.48rem);
       font-weight: 600;
       color: var(--text);
     }
 
     .metric-note {
-      font-size: 13px;
+      font-size: clamp(0.92rem, 1.02vw, 1.18rem);
       color: var(--text-muted);
       margin-top: 2px;
     }
 
     .metric-val {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 16px;
+      font-size: clamp(1.18rem, 1.42vw, 1.68rem);
       font-weight: 600;
       color: var(--coral);
     }
@@ -396,8 +430,8 @@
     .big-metrics {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 36px;
-      padding: 28px 0;
+      gap: 3vw;
+      padding: clamp(1.4rem, 2.8vh, 2.5rem) 0;
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
     }
@@ -405,12 +439,12 @@
     .big-metric {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 0.65rem;
     }
 
     .big-num {
       font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(36px, 4vw, 52px);
+      font-size: clamp(2.8rem, 4.6vw, 5.6rem);
       font-weight: 600;
       letter-spacing: -0.03em;
       color: var(--emerald);
@@ -418,7 +452,7 @@
     }
 
     .big-lbl {
-      font-size: 15px;
+      font-size: clamp(1.08rem, 1.25vw, 1.48rem);
       font-weight: 500;
       color: var(--text-secondary);
       line-height: 1.45;
@@ -427,24 +461,27 @@
     .artifacts-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 48px;
+      gap: 3vw;
     }
 
     .artifact-block {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 0.7rem;
+      padding: clamp(1.5rem, 2.2vw, 2.5rem);
+      border: 1px solid var(--line);
     }
 
     .artifact-block h3 {
-      font-size: 17px;
+      font-size: clamp(1.25rem, 1.5vw, 1.85rem);
       font-weight: 600;
       color: var(--text);
+      line-height: 1.3;
     }
 
     .artifact-block p {
-      font-size: 14.5px;
-      line-height: 1.6;
+      font-size: clamp(1.02rem, 1.18vw, 1.38rem);
+      line-height: 1.55;
       color: var(--text-secondary);
     }
 
@@ -452,14 +489,14 @@
     .cta-btn {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       width: fit-content;
-      padding: 15px 28px;
+      padding: 1.15rem 2.6rem;
       border-radius: 8px;
       background: var(--emerald);
       color: #04130D;
       font-weight: 700;
-      font-size: 15px;
+      font-size: clamp(1.15rem, 1.3vw, 1.5rem);
       text-decoration: none;
       letter-spacing: -0.01em;
       transition: background 0.2s ease, transform 0.2s ease;
@@ -476,7 +513,7 @@
       position: fixed;
       top: 64px;
       bottom: 64px;
-      width: 9vw;
+      width: 6vw;
       z-index: 15;
       cursor: pointer;
     }
@@ -490,7 +527,7 @@
       left: 0;
       right: 0;
       z-index: 20;
-      padding: 0 56px 24px;
+      padding: 0 4vw 24px;
       display: flex;
       align-items: center;
       gap: 24px;
@@ -514,7 +551,7 @@
 
     .slide-counter {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
+      font-size: clamp(0.8rem, 0.9vw, 1rem);
       letter-spacing: 0.08em;
       color: var(--text-muted);
       flex-shrink: 0;
@@ -526,15 +563,14 @@
     }
 
     @media (max-width: 960px) {
-      .slide { padding: 76px 28px 64px; }
-      .top-bar { padding: 20px 28px; }
-      .bottom-hud { padding: 0 28px 18px; }
-      .col-side { max-width: 100%; }
-      .timeline-grid, .flow-grid, .compare-cols, .big-metrics, .artifacts-grid, .matrix-2x2 {
+      .slide-grid, .timeline-grid, .flow-grid, .compare-cols, .big-metrics, .artifacts-grid, .matrix-2x2 {
         grid-template-columns: 1fr;
       }
+      .slide.mirror .col-side {
+        grid-column: 1;
+      }
       .flow-arrow { display: none; }
-      .timeline-col { border-right: none; border-bottom: 1px solid var(--line); padding-bottom: 18px; }
+      .timeline-col { border-right: none; border-bottom: 1px solid var(--line); padding-left: 0; }
     }
   </style>
 </head>
@@ -551,21 +587,25 @@
   <main class="slides-layer">
     <!-- SLIDE 1 (Hero 3D Right) -->
     <section class="slide active" data-slide="0">
-      <div class="col-side">
-        <h1 class="hero-title">VIGILIA</h1>
-        <p class="lead">
-          Банктік антифрод жүйелерін production ортасына шығармай тұрып стресс-тестілеу және ережелерді автоматты түрде күшейту полигоны.
-        </p>
-        <p class="body-copy">
-          Біз алаяқтардың жаңа схемаларын нақты клиенттерге зиян келмей тұрып оқшауланған синтетикалық ортада модельдейміз.
-        </p>
+      <div class="slide-stage">
+        <div class="slide-grid">
+          <div class="col-side">
+            <h1 class="hero-title">VIGILIA</h1>
+            <p class="lead">
+              Банктік антифрод жүйелерін production ортасына шығармай тұрып стресс-тестілеу және ережелерді автоматты түрде күшейту полигоны.
+            </p>
+            <p class="body-copy">
+              Біз алаяқтардың жаңа схемаларын нақты клиенттерге зиян келмей тұрып оқшауланған синтетикалық ортада модельдейміз.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- SLIDE 2 (Ambient Horizon Decor — Horizontal 3-column timeline) -->
     <section class="slide" data-slide="1">
       <div class="col-full">
-        <div style="max-width: 720px; display: flex; flex-direction: column; gap: 14px;">
+        <div class="section-head">
           <h2 class="slide-title">Реактивті қорғаныстан проактивті краш-тестке</h2>
           <p class="body-copy">
             Банктік антифрод жұмысын талдай келе, біз жүйелі алшақтықты көрдік: қорғаныс әрқашан шабуылдан кейін жаңарады.
@@ -599,26 +639,30 @@
 
     <!-- SLIDE 3 (3D LEFT, Text RIGHT) -->
     <section class="slide mirror" data-slide="2">
-      <div class="col-side">
-        <h2 class="slide-title">Неге классикалық антифрод жеткіліксіз?</h2>
-        <div class="divided-list">
-          <div class="divided-item">
-            <h3>Concept Drift және жасырын схемалар</h3>
-            <p>
-              Алаяқтар ірі аударымдарды ұсақ бөліктерге бөледі (Smurfing) және аккаунтты біртіндеп басып алады (ATO). Ескі ML-модельдер мұндай мінез-құлықты қалыпты трафик деп қабылдайды.
-            </p>
-          </div>
-          <div class="divided-item">
-            <h3>Шығын мен клиент лояльдігінің теңгерімі</h3>
-            <p>
-              Сүзгілерді тым қатайту False Positive көрсеткішін өсіріп, клиенттердің наразылығын тудырады, ал жұмсарту — тікелей қаржылық шығынға әкеледі.
-            </p>
-          </div>
-          <div class="divided-item">
-            <h3>Дербес деректер (ПДн) қауіпсіздігі</h3>
-            <p>
-              Комплаенс пен заң талаптары нақты клиент базасында шабуыл сценарийлерін жүргізуге тыйым салады, сондықтан банкке синтетикалық сынақ ортасы қажет.
-            </p>
+      <div class="slide-stage">
+        <div class="slide-grid">
+          <div class="col-side">
+            <h2 class="slide-title">Неге классикалық антифрод жеткіліксіз?</h2>
+            <div class="divided-list">
+              <div class="divided-item">
+                <h3>Concept Drift және жасырын схемалар</h3>
+                <p>
+                  Алаяқтар ірі аударымдарды ұсақ бөліктерге бөледі (Smurfing) және аккаунтты біртіндеп басып алады (ATO). Ескі ML-модельдер мұндай мінез-құлықты қалыпты трафик деп қабылдайды.
+                </p>
+              </div>
+              <div class="divided-item">
+                <h3>Шығын мен клиент лояльдігінің теңгерімі</h3>
+                <p>
+                  Сүзгілерді тым қатайту False Positive көрсеткішін өсіріп, клиенттердің наразылығын тудырады, ал жұмсарту — тікелей қаржылық шығынға әкеледі.
+                </p>
+              </div>
+              <div class="divided-item">
+                <h3>Дербес деректер (ПДн) қауіпсіздігі</h3>
+                <p>
+                  Комплаенс пен заң талаптары нақты клиент базасында шабуыл сценарийлерін жүргізуге тыйым салады, сондықтан банкке синтетикалық сынақ ортасы қажет.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -626,27 +670,31 @@
 
     <!-- SLIDE 4 (3D Right) -->
     <section class="slide" data-slide="3">
-      <div class="col-side">
-        <h2 class="slide-title">VIGILIA — Red Team және Blue Team бір контурда</h2>
-        <p class="body-copy">
-          Бұл тек мониторинг емес, банктің қолданыстағы антифродын үздіксіз тексеретін және өздігінен бейімдейтін автономды полигон.
-        </p>
-        <div class="matrix-2x2">
-          <div class="matrix-cell">
-            <h3>100% синтетикалық трафик</h3>
-            <p>Нақты клиенттердің бірде-бір дерегін қолданбай, банктік транзакциялардың шынайы статистикалық профилін генерациялайды.</p>
-          </div>
-          <div class="matrix-cell">
-            <h3>Соқыр аймақтарды дәл табу</h3>
-            <p>Қай шабуыл векторы қазіргі ережелер мен ML-модельдерден өтіп кететінін автоматты түрде анықтайды.</p>
-          </div>
-          <div class="matrix-cell">
-            <h3>Ережелердің авто-эволюциясы</h3>
-            <p>Табылған осалдықтарды жабу үшін жаңа ережелер мен оңтайлы шектерді ұсынып, оларды бірден қайта тексереді.</p>
-          </div>
-          <div class="matrix-cell">
-            <h3>Тәуекелді теңгемен бағалау</h3>
-            <p>Әрбір жабылмаған осалдықтың банкке әкелетін ықтимал шығынын нақты <span class="mono">₸</span> сомасымен есептеп береді.</p>
+      <div class="slide-stage">
+        <div class="slide-grid">
+          <div class="col-side">
+            <h2 class="slide-title">VIGILIA — Red Team және Blue Team бір контурда</h2>
+            <p class="body-copy">
+              Бұл тек мониторинг емес, банктің қолданыстағы антифродын үздіксіз тексеретін және өздігінен бейімдейтін автономды полигон.
+            </p>
+            <div class="matrix-2x2">
+              <div class="matrix-cell">
+                <h3>100% синтетикалық трафик</h3>
+                <p>Нақты клиенттердің бірде-бір дерегін қолданбай, банктік транзакциялардың шынайы статистикалық профилін генерациялайды.</p>
+              </div>
+              <div class="matrix-cell">
+                <h3>Соқыр аймақтарды дәл табу</h3>
+                <p>Қай шабуыл векторы қазіргі ережелер мен ML-модельдерден өтіп кететінін автоматты түрде анықтайды.</p>
+              </div>
+              <div class="matrix-cell">
+                <h3>Ережелердің авто-эволюциясы</h3>
+                <p>Табылған осалдықтарды жабу үшін жаңа ережелер мен оңтайлы шектерді ұсынып, оларды бірден қайта тексереді.</p>
+              </div>
+              <div class="matrix-cell">
+                <h3>Тәуекелді теңгемен бағалау</h3>
+                <p>Әрбір жабылмаған осалдықтың банкке әкелетін ықтимал шығынын нақты <span class="mono">₸</span> сомасымен есептеп береді.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -655,7 +703,7 @@
     <!-- SLIDE 5 (Ambient Elliptical Orbits — Architectural flow 01 -> 02 -> 03) -->
     <section class="slide" data-slide="4">
       <div class="col-full">
-        <div style="max-width: 720px; display: flex; flex-direction: column; gap: 14px;">
+        <div class="section-head">
           <h2 class="slide-title">Антифродты күшейтудің тұйық циклі</h2>
           <p class="body-copy">
             Бір реттік аудиттің орнына VIGILIA қорғанысты үш қадамдық үздіксіз цикл арқылы шыңдайды.
@@ -717,46 +765,50 @@
 
     <!-- SLIDE 7 (3D LEFT, Text RIGHT) -->
     <section class="slide mirror" data-slide="6">
-      <div class="col-side">
-        <h2 class="slide-title">Experiment <span class="mono">#258</span>: ML-модель аудитінің нәтижесі</h2>
-        <p class="body-copy">
-          <span class="mono" style="color: var(--text);">1 000</span> синтетикалық транзакция <span class="mono" style="color: var(--text);">123,4 мс</span> ішінде тексерілді. Дәстүрлі модель ірі фродты ұстағанымен, <span class="mono" style="color: var(--coral);">16,8 млн ₸</span> көлеміндегі жасырын шабуылдарды өткізіп алды:
-        </p>
-        <div class="metrics-table">
-          <div class="metric-row">
-            <div>
-              <div class="metric-name">Классикалық ірі фрод</div>
-              <div class="metric-note">стандартты шектер оңай ұстайды</div>
+      <div class="slide-stage">
+        <div class="slide-grid">
+          <div class="col-side">
+            <h2 class="slide-title">Experiment <span class="mono">#258</span>: ML-модель аудитінің нәтижесі</h2>
+            <p class="body-copy">
+              <span class="mono" style="color: var(--text);">1 000</span> синтетикалық транзакция <span class="mono" style="color: var(--text);">123,4 мс</span> ішінде тексерілді. Дәстүрлі модель ірі фродты ұстағанымен, <span class="mono" style="color: var(--coral);">16,8 млн ₸</span> көлеміндегі жасырын шабуылдарды өткізіп алды:
+            </p>
+            <div class="metrics-table">
+              <div class="metric-row">
+                <div>
+                  <div class="metric-name">Классикалық ірі фрод</div>
+                  <div class="metric-note">стандартты шектер оңай ұстайды</div>
+                </div>
+                <div class="metric-val ok">99,9%</div>
+              </div>
+              <div class="metric-row">
+                <div>
+                  <div class="metric-name">Аномалды сома</div>
+                  <div class="metric-note">көп бөлігі сүзгіден өтіп кетеді</div>
+                </div>
+                <div class="metric-val">15,4%</div>
+              </div>
+              <div class="metric-row">
+                <div>
+                  <div class="metric-name">Жаңа алушыға төлем</div>
+                  <div class="metric-note">мінез-құлық контексті ескерілмеген</div>
+                </div>
+                <div class="metric-val">15,4%</div>
+              </div>
+              <div class="metric-row">
+                <div>
+                  <div class="metric-name">Velocity шабуылдары</div>
+                  <div class="metric-note">қысқа уақыттағы сериялық төлемдер</div>
+                </div>
+                <div class="metric-val">8,3%</div>
+              </div>
+              <div class="metric-row">
+                <div>
+                  <div class="metric-name">Smurfing және ATO</div>
+                  <div class="metric-note">толық соқыр аймақ — VIGILIA дәл осы тесіктерді жабады</div>
+                </div>
+                <div class="metric-val">0,0%</div>
+              </div>
             </div>
-            <div class="metric-val ok">99,9%</div>
-          </div>
-          <div class="metric-row">
-            <div>
-              <div class="metric-name">Аномалды сома</div>
-              <div class="metric-note">көп бөлігі сүзгіден өтіп кетеді</div>
-            </div>
-            <div class="metric-val">15,4%</div>
-          </div>
-          <div class="metric-row">
-            <div>
-              <div class="metric-name">Жаңа алушыға төлем</div>
-              <div class="metric-note">мінез-құлық контексті ескерілмеген</div>
-            </div>
-            <div class="metric-val">15,4%</div>
-          </div>
-          <div class="metric-row">
-            <div>
-              <div class="metric-name">Velocity шабуылдары</div>
-              <div class="metric-note">қысқа уақыттағы сериялық төлемдер</div>
-            </div>
-            <div class="metric-val">8,3%</div>
-          </div>
-          <div class="metric-row">
-            <div>
-              <div class="metric-name">Smurfing және ATO</div>
-              <div class="metric-note">толық соқыр аймақ — VIGILIA дәл осы тесіктерді жабады</div>
-            </div>
-            <div class="metric-val">0,0%</div>
           </div>
         </div>
       </div>
@@ -765,7 +817,7 @@
     <!-- SLIDE 8 (Ambient Isometric Telemetry Matrix — Integration Matrix) -->
     <section class="slide" data-slide="7">
       <div class="col-full">
-        <div style="max-width: 740px; display: flex; flex-direction: column; gap: 14px;">
+        <div class="section-head">
           <h2 class="slide-title">Банк контурына 1 күнде қауіпсіз енгізу</h2>
           <p class="body-copy">
             VIGILIA банктің негізгі процессингіне жүктеме түсірмейді және ақпараттық қауіпсіздік талаптарына толық сай келеді.
@@ -806,18 +858,22 @@
 
     <!-- SLIDE 9 (3D Right) -->
     <section class="slide" data-slide="8">
-      <div class="col-side">
-        <h1 class="hero-title">VIGILIA</h1>
-        <p class="lead">
-          Алаяқтар жаңа схеманы іске қоспай тұрып, банктің қорғанысын алдын ала шыңдаймыз.
-        </p>
-        <p class="body-copy">
-          Қазір тікелей стендте сыртқы ML-модельдің осалдықтарын тауып, қорғанысты нақты уақытта күшейтіп көрсетеміз.
-        </p>
-        <a href="/" class="cta-btn" id="demo-link">
-          <span>Live Demo ашу</span>
-          <span>→</span>
-        </a>
+      <div class="slide-stage">
+        <div class="slide-grid">
+          <div class="col-side">
+            <h1 class="hero-title">VIGILIA</h1>
+            <p class="lead">
+              Алаяқтар жаңа схеманы іске қоспай тұрып, банктің қорғанысын алдын ала шыңдаймыз.
+            </p>
+            <p class="body-copy">
+              Қазір тікелей стендте сыртқы ML-модельдің осалдықтарын тауып, қорғанысты нақты уақытта күшейтіп көрсетеміз.
+            </p>
+            <a href="/" class="cta-btn" id="demo-link">
+              <span>Live Demo ашу</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -841,19 +897,23 @@
     const canvas = document.getElementById('webgl-canvas');
 
     // =========================================================
-    // 70,000 CONTINUOUS GPU MICRO-PARTICLES (9 STATES + GLITCH)
+    // 100,000 VOXEL-DENSE GPU MICRO-PARTICLES (9 STATES + GLITCH)
     // =========================================================
-    const PARTICLE_COUNT = 70000;
+    const PARTICLE_COUNT = 100000;
     const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
+    const MODEL_SCALE = 1.35; // +35% global scale boost across all 6 hero 3D scenes
 
+    // Deep Emerald & Deep Coral gradients matching the VIGILIA eye palette
     const C_SILVER      = new THREE.Color(0xE2E8F0);
     const C_STEEL       = new THREE.Color(0x94A3B8);
     const C_DARK        = new THREE.Color(0x0B1018);
-    const C_DARK_EMERALD= new THREE.Color(0x065F46);
+    const C_DEEP_EMERALD= new THREE.Color(0x064E3B);
+    const C_DARK_EMERALD= new THREE.Color(0x047857);
     const C_EMERALD     = new THREE.Color(0x10B981);
     const C_MINT        = new THREE.Color(0x34D399);
     const C_MINT_HI     = new THREE.Color(0x6EE7B7);
     const C_WHITE       = new THREE.Color(0xF8FAFC);
+    const C_DEEP_CORAL  = new THREE.Color(0x9F1239);
     const C_CORAL       = new THREE.Color(0xF43F5E);
     const C_CORAL_HI    = new THREE.Color(0xFDA4AF);
 
@@ -863,17 +923,22 @@
       return seed / 4294967296;
     }
 
+    function computeXOffset() {
+      const aspect = window.innerWidth / Math.max(1, window.innerHeight);
+      return Math.min(aspect, 1.75) * 1.18;
+    }
+
     function makeShapeBuffer() {
       return {
         pos: new Float32Array(PARTICLE_COUNT * 3),
         col: new Float32Array(PARTICLE_COUNT * 3),
-        spin: new Float32Array(PARTICLE_COUNT * 4), // axisX, axisY, axisZ, speed
+        spin: new Float32Array(PARTICLE_COUNT * 4),  // axisX, axisY, axisZ, speed
         props: new Float32Array(PARTICLE_COUNT * 4), // size, alpha, phase, pulseSpeed
-        meta: new Float32Array(PARTICLE_COUNT * 4)   // pivotX, pivotY, noiseAmp, unused
+        meta: new Float32Array(PARTICLE_COUNT * 4)   // pivotX, pivotY, noiseAmp, sideSign (-1 left, 0 center, +1 right)
       };
     }
 
-    function setP(b, i, x, y, z, col, size, alpha, px, py, ax, ay, az, spinSpeed, phase = 0, pulseSpeed = 0, noiseAmp = 0.03) {
+    function setP(b, i, x, y, z, col, size, alpha, px, py, ax, ay, az, spinSpeed, phase = 0, pulseSpeed = 0, noiseAmp = 0.03, sideSign = 0.0) {
       const i3 = i * 3;
       const i4 = i * 4;
       b.pos[i3] = x;
@@ -893,12 +958,12 @@
       b.meta[i4] = px;
       b.meta[i4 + 1] = py;
       b.meta[i4 + 2] = noiseAmp;
-      b.meta[i4 + 3] = 0.0;
+      b.meta[i4 + 3] = sideSign;
     }
 
-    function normalizedAxis(x, y, z) {
-      const l = Math.hypot(x, y, z) || 1;
-      return [x / l, y / l, z / l];
+    // Voxel-quantized jitter helper for crisp pixel-voxel texture matching the VIGILIA eye
+    function vSnap(val, step = 0.032) {
+      return Math.round(val / step) * step + (rand() - 0.5) * step * 0.72;
     }
 
     // ---------------------------------------------------------
@@ -906,106 +971,100 @@
     // ---------------------------------------------------------
     function buildVigiliaEye(stabilized) {
       const b = makeShapeBuffer();
-      const cx = 2.48;
+      const s = 1.14; // large scale fitting cleanly in right column on both 16:9 and 4:3
+      const lx = 0.44; // keeps left circuit trace clear of text and right trace inside viewport
       let idx = 0;
 
-      // Helper to sample a 3D polyline segment with thickness
       function addPolyline(pts, totalPts, halfThick, colA, colB, pulseSpd, size) {
         const segs = pts.length - 1;
         for (let i = 0; i < totalPts; i++) {
-          const s = i % segs;
+          const sg = i % segs;
           const t = rand();
-          const p0 = pts[s];
-          const p1 = pts[s + 1];
-          const x = p0[0] + (p1[0] - p0[0]) * t + (rand() - 0.5) * halfThick * 2;
-          const y = p0[1] + (p1[1] - p0[1]) * t + (rand() - 0.5) * halfThick * 2;
-          const z = p0[2] + (p1[2] - p0[2]) * t + (rand() - 0.5) * halfThick;
-          const prog = (s + t) / segs;
-          setP(b, idx++, cx + x, y, z, i % 3 === 0 ? colB : colA, size, 0.96, cx, 0, 0, 1, 0, 0.0, prog, pulseSpd, 0.01);
+          const p0 = pts[sg];
+          const p1 = pts[sg + 1];
+          const x = lx + (p0[0] + (p1[0] - p0[0]) * t + (rand() - 0.5) * halfThick * 2) * s;
+          const y = (p0[1] + (p1[1] - p0[1]) * t + (rand() - 0.5) * halfThick * 2) * s;
+          const z = (p0[2] + (p1[2] - p0[2]) * t + (rand() - 0.5) * halfThick) * s;
+          setP(b, idx++, x, y, z, i % 3 === 0 ? colB : colA, size, 0.96, lx, 0, 0, 1, 0, 0.0, (sg + t) / segs, pulseSpd, 0.01, 1.0);
         }
       }
 
-      // Helper to sample a small square pixel block / node
       function addSquareBlock(x0, y0, z0, sizeXY, count, col) {
         for (let i = 0; i < count; i++) {
-          const x = x0 + (rand() - 0.5) * sizeXY;
-          const y = y0 + (rand() - 0.5) * sizeXY;
-          const z = z0 + (rand() - 0.5) * 0.04;
-          setP(b, idx++, cx + x, y, z, col, 2.0, 0.98, cx, 0, 0, 1, 0, 0.0, rand(), stabilized ? 2.4 : 3.2, 0.01);
+          const x = lx + (x0 + (rand() - 0.5) * sizeXY) * s;
+          const y = (y0 + (rand() - 0.5) * sizeXY) * s;
+          const z = (z0 + (rand() - 0.5) * 0.04) * s;
+          setP(b, idx++, x, y, z, col, 2.0, 0.98, lx, 0, 0, 1, 0, 0.0, rand(), stabilized ? 2.4 : 3.2, 0.01, 1.0);
         }
       }
 
-      // 1) Almond Eyelid Contours (x in [-1.55, +1.55], y in [-0.78, +0.78]) — 18,000 pts
-      // Upper thickened brow (10,500 pts)
-      for (let i = 0; i < 10500; i++) {
-        const u = rand() * 2 - 1; // -1 .. +1
+      // Upper thickened brow
+      for (let i = 0; i < 15000; i++) {
+        const u = rand() * 2 - 1;
         const arch = Math.pow(Math.max(0, Math.cos(u * Math.PI * 0.5)), 0.92);
         const thick = (0.065 + 0.085 * arch) * (rand() - 0.5) * 2;
-        const x = u * 1.55;
-        const y = 0.78 * arch + thick * 0.7;
-        const z = 0.22 * (1 - u * u) - 0.04 + (rand() - 0.5) * 0.06;
-        const col = thick > 0.03 ? C_DARK_EMERALD : (i % 3 === 0 ? C_MINT : C_EMERALD);
-        setP(b, idx++, cx + x, y, z, col, 1.85, 0.96, cx, 0, 0, 1, 0, 0.0, (u + 1) * 0.5, stabilized ? 1.8 : 2.8, 0.01);
+        const x = lx + u * 1.55 * s;
+        const y = (0.78 * arch + thick * 0.7) * s;
+        const z = (0.22 * (1 - u * u) - 0.04 + (rand() - 0.5) * 0.06) * s;
+        const col = thick > 0.03 ? C_DEEP_EMERALD : (i % 3 === 0 ? C_MINT : C_EMERALD);
+        setP(b, idx++, x, y, z, col, 1.85, 0.96, lx, 0, 0, 1, 0, 0.0, (u + 1) * 0.5, stabilized ? 1.8 : 2.8, 0.01, 1.0);
       }
 
-      // Lower eyelid contour (7,500 pts)
-      for (let i = 0; i < 7500; i++) {
+      // Lower eyelid contour
+      for (let i = 0; i < 11000; i++) {
         const u = rand() * 2 - 1;
         const arch = Math.pow(Math.max(0, Math.cos(u * Math.PI * 0.5)), 1.05);
         const thick = (0.045 + 0.045 * arch) * (rand() - 0.5) * 2;
-        const x = u * 1.55;
-        const y = -0.68 * arch + thick * 0.7;
-        const z = 0.18 * (1 - u * u) - 0.04 + (rand() - 0.5) * 0.05;
-        const col = thick < -0.02 ? C_DARK_EMERALD : (i % 3 === 0 ? C_MINT : C_EMERALD);
-        setP(b, idx++, cx + x, y, z, col, 1.75, 0.95, cx, 0, 0, 1, 0, 0.0, (u + 1) * 0.5, stabilized ? 1.8 : 2.8, 0.01);
+        const x = lx + u * 1.55 * s;
+        const y = (-0.68 * arch + thick * 0.7) * s;
+        const z = (0.18 * (1 - u * u) - 0.04 + (rand() - 0.5) * 0.05) * s;
+        const col = thick < -0.02 ? C_DEEP_EMERALD : (i % 3 === 0 ? C_MINT : C_EMERALD);
+        setP(b, idx++, x, y, z, col, 1.75, 0.95, lx, 0, 0, 1, 0, 0.0, (u + 1) * 0.5, stabilized ? 1.8 : 2.8, 0.01, 1.0);
       }
 
-      // 2) Volumetric Iris Ring (R = 0.56) + Dark Emerald Inner Iris — 18,000 pts
-      for (let i = 0; i < 12000; i++) {
+      // Iris ring + inner iris
+      for (let i = 0; i < 17000; i++) {
         const ang = rand() * Math.PI * 2;
         const tv = rand() * Math.PI * 2;
         const tr = 0.095 * Math.sqrt(rand());
         const r = 0.56 + tr * Math.cos(tv);
-        const x = Math.cos(ang) * r;
-        const y = Math.sin(ang) * r;
-        const z = 0.28 + tr * Math.sin(tv) * 0.8;
+        const x = lx + Math.cos(ang) * r * s;
+        const y = Math.sin(ang) * r * s;
+        const z = (0.28 + tr * Math.sin(tv) * 0.8) * s;
         const col = i % 4 === 0 ? (stabilized ? C_MINT_HI : C_MINT) : C_EMERALD;
-        setP(b, idx++, cx + x, y, z, col, 1.9, 0.98, cx, 0, 0, 1, 0, 0.0, ang / (Math.PI * 2), 2.5, 0.008);
+        setP(b, idx++, x, y, z, col, 1.9, 0.98, lx, 0, 0, 1, 0, 0.0, ang / (Math.PI * 2), 2.5, 0.008, 1.0);
       }
-      for (let i = 0; i < 6000; i++) {
+      for (let i = 0; i < 8500; i++) {
         const ang = rand() * Math.PI * 2;
         const r = 0.18 + 0.30 * Math.sqrt(rand());
-        const x = Math.cos(ang) * r;
-        const y = Math.sin(ang) * r;
-        const z = 0.22 + 0.08 * (1 - r / 0.52);
-        setP(b, idx++, cx + x, y, z, C_DARK_EMERALD, 1.7, 0.88, cx, 0, 0, 1, 0, 0.0, ang / (Math.PI * 2), 1.5, 0.01);
+        const x = lx + Math.cos(ang) * r * s;
+        const y = Math.sin(ang) * r * s;
+        const z = (0.22 + 0.08 * (1 - r / 0.52)) * s;
+        setP(b, idx++, x, y, z, C_DEEP_EMERALD, 1.7, 0.88, lx, 0, 0, 1, 0, 0.0, ang / (Math.PI * 2), 1.5, 0.01, 1.0);
       }
 
-      // 3) Bright White / Light-Emerald 4-Pointed Star Pupil Flare — 9,000 pts
-      for (let i = 0; i < 9000; i++) {
+      // 4-pointed star pupil flare
+      for (let i = 0; i < 13000; i++) {
         let sx, sy;
-        // Astroid / 4-pointed star rejection sampling + sharp axis rays
-        if (i < 3600) {
-          // Horizontal & vertical crisp star rays
+        if (i < 5200) {
           const isX = i % 2 === 0;
           const t = (rand() * 2 - 1) * 0.44;
           const w = 0.045 * (1 - Math.abs(t) / 0.48);
           sx = isX ? t : (rand() - 0.5) * w * 2;
           sy = isX ? (rand() - 0.5) * w * 2 : t;
         } else {
-          // Curved 4-pointed astroid core
           const ang = rand() * Math.PI * 2;
           const radial = Math.pow(rand(), 0.7) * 0.32;
           const starMod = Math.pow(Math.abs(Math.cos(ang * 2)), 0.75) * 0.68 + 0.32;
           sx = Math.cos(ang) * radial * starMod;
           sy = Math.sin(ang) * radial * starMod;
         }
-        const z = 0.36 + 0.06 * (1 - Math.hypot(sx, sy) / 0.45);
+        const z = (0.36 + 0.06 * (1 - Math.hypot(sx, sy) / 0.45)) * s;
         const col = Math.hypot(sx, sy) < 0.16 || stabilized ? C_WHITE : C_MINT_HI;
-        setP(b, idx++, cx + sx, sy, z, col, stabilized ? 2.25 : 2.05, 1.0, cx, 0, 0, 1, 0, 0.0, rand(), 3.0, 0.008);
+        setP(b, idx++, lx + sx * s, sy * s, z, col, stabilized ? 2.25 : 2.05, 1.0, lx, 0, 0, 1, 0, 0.0, rand(), 3.0, 0.008, 1.0);
       }
 
-      // 4) Diagonal Orbital Arc (~35 deg, top-right around eye down to bottom-left behind Z plane) — 14,000 pts
+      // Orbital arc behind eye
       const arcCurve = new THREE.CatmullRomCurve3([
         new THREE.Vector3(1.62, 1.08, 0.08),
         new THREE.Vector3(0.65, 0.85, -0.32),
@@ -1014,7 +1073,7 @@
         new THREE.Vector3(-1.68, -1.06, 0.12)
       ]);
       const pArc = new THREE.Vector3();
-      for (let i = 0; i < 14000; i++) {
+      for (let i = 0; i < 20000; i++) {
         const t = rand();
         arcCurve.getPoint(t, pArc);
         const ribbonW = 0.14 * Math.sin(t * Math.PI * 0.88 + 0.18);
@@ -1023,13 +1082,13 @@
         setP(
           b,
           idx++,
-          cx + pArc.x + off * 0.6,
-          pArc.y - off * 0.8,
-          pArc.z + (rand() - 0.5) * 0.06,
+          lx + (pArc.x + off * 0.6) * s,
+          (pArc.y - off * 0.8) * s,
+          (pArc.z + (rand() - 0.5) * 0.06) * s,
           col,
           1.75,
           0.92,
-          cx,
+          lx,
           0,
           0,
           1,
@@ -1037,37 +1096,31 @@
           0.0,
           t,
           2.6,
-          0.014
+          0.014,
+          1.0
         );
       }
 
-      // 5) Circuit Traces & Floating Pixel Square Nodes on Left & Right — remaining ~11,000 pts
-      // Left corner trace (steps left, then up-left) + node + 2 floating pixel squares top-left
-      addPolyline([[-1.55, 0.0, -0.02], [-1.84, 0.0, -0.02], [-2.02, 0.20, -0.02], [-2.18, 0.20, -0.02]], 2200, 0.018, C_MINT, C_EMERALD, 3.0, 1.75);
-      addSquareBlock(-2.22, 0.20, -0.02, 0.11, 700, C_MINT_HI);
-      addSquareBlock(-1.90, 0.54, 0.04, 0.12, 750, C_MINT);
-      addSquareBlock(-1.60, 0.72, 0.06, 0.09, 550, C_SILVER);
+      addPolyline([[-1.55, 0.0, -0.02], [-1.84, 0.0, -0.02], [-2.02, 0.20, -0.02], [-2.18, 0.20, -0.02]], 3000, 0.018, C_MINT, C_EMERALD, 3.0, 1.75);
+      addSquareBlock(-2.22, 0.20, -0.02, 0.11, 1000, C_MINT_HI);
+      addSquareBlock(-1.90, 0.54, 0.04, 0.12, 1050, C_MINT);
+      addSquareBlock(-1.60, 0.72, 0.06, 0.09, 800, C_SILVER);
 
-      // Right corner traces (2 diverging stepped traces) + nodes + 2 floating pixel squares bottom-right
-      addPolyline([[1.55, 0.05, -0.02], [1.82, 0.05, -0.02], [2.00, 0.27, -0.02], [2.16, 0.27, -0.02]], 2100, 0.018, C_MINT, C_EMERALD, 3.0, 1.75);
-      addSquareBlock(2.20, 0.27, -0.02, 0.11, 650, C_MINT_HI);
-
-      addPolyline([[1.55, -0.05, -0.02], [1.84, -0.05, -0.02], [2.02, -0.27, -0.02], [2.18, -0.27, -0.02]], 2100, 0.018, C_MINT, C_EMERALD, 3.0, 1.75);
-      addSquareBlock(2.22, -0.27, -0.02, 0.11, 650, C_MINT_HI);
-
-      addSquareBlock(1.76, -0.58, 0.05, 0.12, 750, C_MINT);
-      addSquareBlock(2.04, -0.44, 0.04, 0.09, 550, C_SILVER);
+      addPolyline([[1.55, 0.05, -0.02], [1.82, 0.05, -0.02], [2.00, 0.27, -0.02], [2.16, 0.27, -0.02]], 2900, 0.018, C_MINT, C_EMERALD, 3.0, 1.75);
+      addSquareBlock(2.20, 0.27, -0.02, 0.11, 950, C_MINT_HI);
+      addPolyline([[1.55, -0.05, -0.02], [1.84, -0.05, -0.02], [2.02, -0.27, -0.02], [2.18, -0.27, -0.02]], 2900, 0.018, C_MINT, C_EMERALD, 3.0, 1.75);
+      addSquareBlock(2.22, -0.27, -0.02, 0.11, 950, C_MINT_HI);
+      addSquareBlock(1.76, -0.58, 0.05, 0.12, 1050, C_MINT);
+      addSquareBlock(2.04, -0.44, 0.04, 0.09, 800, C_SILVER);
 
       while (idx < PARTICLE_COUNT) {
-        // Fill any rounding remainder neatly onto the iris center star
-        setP(b, idx++, cx + (rand() - 0.5) * 0.08, (rand() - 0.5) * 0.08, 0.36, C_WHITE, 2.0, 0.98, cx, 0, 0, 1, 0, 0.0, rand(), 2.5, 0.008);
+        setP(b, idx++, lx + (rand() - 0.5) * 0.08 * s, (rand() - 0.5) * 0.08 * s, 0.36 * s, C_WHITE, 2.0, 0.98, lx, 0, 0, 1, 0, 0.0, rand(), 2.5, 0.008, 1.0);
       }
       return b;
     }
 
     function buildEyeFromImage(img, stabilized) {
       const b = makeShapeBuffer();
-      const cx = 2.48;
       const sw = 192;
       const sh = 108;
       const off = document.createElement('canvas');
@@ -1079,7 +1132,9 @@
       const data = ctx.getImageData(0, 0, sw, sh).data;
 
       const pixels = [];
-      const widthWorld = 4.28;
+      const eyeScale = 1.14;
+      const lx = 0.44; // centered cleanly in right half on both 16:9 and 4:3 without clipping or text overlap
+      const widthWorld = 4.28 * eyeScale;
       const heightWorld = widthWorld * (img.height / img.width);
       const pxW = widthWorld / sw;
       const pxH = heightWorld / sh;
@@ -1096,7 +1151,7 @@
 
           const nx = (px / sw - 0.5) * 2;
           const ny = -(py / sh - 0.5) * 2;
-          const x = nx * (widthWorld * 0.5);
+          const x = lx + nx * (widthWorld * 0.5);
           const y = ny * (heightWorld * 0.5);
 
           const dCenter = Math.hypot(nx * 1.77, ny);
@@ -1105,18 +1160,14 @@
 
           let z = 0.0;
           if (Math.abs(nx) > 0.56) {
-            // Left/right circuit traces & hollow pixel squares
-            z = 0.05;
+            z = 0.05 * eyeScale;
           } else if (ny > 0.44 || ny < -0.42) {
-            // Orbital arc passing behind the eye plane
-            z = -0.35;
+            z = -0.35 * eyeScale;
           } else if (dCenter < 0.36) {
-            // Iris and bright 4-pointed star flare protrude forward
-            z = isStarCore ? 0.32 : 0.22;
+            z = (isStarCore ? 0.32 : 0.22) * eyeScale;
           } else {
-            // Almond eyelid & brow with smooth 3D convexity
             const u = nx / 0.56;
-            z = 0.14 * Math.max(0, 1 - u * u);
+            z = 0.14 * Math.max(0, 1 - u * u) * eyeScale;
           }
 
           const col = isDarkOutline
@@ -1132,27 +1183,28 @@
         const p = pixels[i % totalPx];
         const jx = (rand() - 0.5) * pxW * 0.92;
         const jy = (rand() - 0.5) * pxH * 0.92;
-        const jz = (rand() - 0.5) * 0.065;
-        const sz = p.isStarCore ? (stabilized ? 2.15 : 1.95) : (p.isDarkOutline ? 1.85 : 1.65);
+        const jz = (rand() - 0.5) * 0.065 * eyeScale;
+        const sz = p.isStarCore ? (stabilized ? 2.1 : 1.9) : (p.isDarkOutline ? 1.8 : 1.6);
         const pulse = p.isStarCore ? 3.2 : (p.isDarkOutline ? 0.0 : 2.2);
         setP(
           b,
           i,
-          cx + p.x + jx,
+          p.x + jx,
           p.y + jy,
           p.z + jz,
           p.col,
           sz,
-          p.isDarkOutline ? 0.95 : 0.98,
-          cx,
+          p.isDarkOutline ? 0.96 : 0.98,
+          lx,
           0,
           0,
           1,
           0,
           0.0,
-          (p.x + 2.2) / 4.4,
+          (p.x + 2.5) / 5.0,
           pulse,
-          0.008
+          0.008,
+          1.0
         );
       }
       return b;
@@ -1163,47 +1215,47 @@
     }
 
     // ---------------------------------------------------------
-    // STATE 1 (Slide 02, AMBIENT DECOR): Topographic Data Horizon (Lower Band, alpha ~0.34)
+    // STATE 1 (Slide 02, AMBIENT DECOR): Topographic Data Horizon
     // ---------------------------------------------------------
     function buildState02_HorizonDecor() {
       const b = makeShapeBuffer();
       for (let i = 0; i < PARTICLE_COUNT; i++) {
-        // Golden-ratio quasi-random fill across wide bottom horizon (zero moiré)
         const u = ((i * 0.61803398875) % 1) * 2 - 1;
         const v = (i / PARTICLE_COUNT) * 2 - 1;
-        const x = u * 5.2 + (rand() - 0.5) * 0.14;
-        const z = v * 2.4 + (rand() - 0.5) * 0.14;
+        const x = u * 6.4 + (rand() - 0.5) * 0.14;
+        const z = v * 2.8 + (rand() - 0.5) * 0.14;
 
         const ridge =
-          Math.sin(x * 0.85 + z * 0.9) * 0.28 +
-          Math.cos(x * 1.45 - z * 1.2) * 0.18 +
-          Math.sin(x * 2.2) * 0.08;
-        const y = -2.25 + ridge;
+          Math.sin(x * 0.78 + z * 0.85) * 0.34 +
+          Math.cos(x * 1.35 - z * 1.15) * 0.22 +
+          Math.sin(x * 2.1) * 0.09;
+        const y = -2.45 + ridge;
 
-        const col = ridge > 0.18 ? C_MINT : (ridge > -0.05 ? C_EMERALD : C_STEEL);
-        const phase = (x + 5.2) / 10.4;
-        setP(b, i, x, y, z, col, 1.55, 0.34, 0, -2.25, 0, 1, 0, 0.0, phase, 1.6, 0.045);
+        const col = ridge > 0.2 ? C_MINT : (ridge > -0.06 ? C_EMERALD : C_STEEL);
+        const phase = (x + 6.4) / 12.8;
+        setP(b, i, x, y, z, col, 1.5, 0.34, 0, -2.45, 0, 1, 0, 0.0, phase, 1.6, 0.045, 0.0);
       }
       return b;
     }
 
     // ---------------------------------------------------------
-    // STATE 2 (Slide 03, LEFT): Clean Sphere (R = 1.65) Shattering into Coral Clusters on Right Sector
+    // STATE 2 (Slide 03, LEFT): Voxel-Dense Sphere (1.35x scale) Shattering Into Coral Clusters
     // ---------------------------------------------------------
     function buildState03_Breakthrough() {
       const b = makeShapeBuffer();
-      const cx = -2.42;
-      const R = 1.65;
+      const R = 1.48 * MODEL_SCALE; // ~2.00 -> crisp 60% height with full left/right margin
+      const lx = -0.72; // keeps left edge inside viewport and right coral shatter clear of text
 
-      // 18 distinct coral cluster drift directions on the right/lower-right sector
+      // 20 crisp cluster centroids shattering cleanly on right/front-right within left half
       const clusterCenters = [];
-      for (let k = 0; k < 18; k++) {
-        const ang = (k / 18) * Math.PI * 1.1 - 0.55;
-        const dist = 0.28 + rand() * 0.48;
-        clusterCenters.push([Math.cos(ang) * dist, Math.sin(ang) * dist * 0.75 - 0.12, (rand() - 0.5) * 0.55]);
+      for (let k = 0; k < 20; k++) {
+        const ang = (k / 20) * Math.PI * 1.15 - 0.58;
+        const dist = (0.16 + rand() * 0.24) * MODEL_SCALE;
+        clusterCenters.push([Math.cos(ang) * dist, Math.sin(ang) * dist * 0.9 - 0.08, (rand() - 0.5) * 0.65]);
       }
 
       for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const isContour = i % 7 === 0;
         const yNorm = 1 - (i / (PARTICLE_COUNT - 1)) * 2;
         const rSlice = Math.sqrt(Math.max(0, 1 - yNorm * yNorm));
         const theta = i * GOLDEN_ANGLE;
@@ -1212,156 +1264,140 @@
         let y = yNorm * R;
         let z = Math.sin(theta) * rSlice * R;
 
-        // Right sector fractures outward into coral-red clusters
-        const fractureZone = (x - 0.28) * 0.85 - (y - 0.35) * 0.35;
+        const fractureZone = (x - 0.32) * 0.82 - (y - 0.38) * 0.32;
         if (fractureZone > 0.0) {
-          const frac = Math.min(1.0, fractureZone / 1.35);
+          const frac = Math.min(1.0, fractureZone / (1.25 * MODEL_SCALE));
           const cc = clusterCenters[i % clusterCenters.length];
-          const burst = (rand() - 0.5) * 0.12;
-          x += cc[0] * (0.35 + frac * 0.65) + burst;
-          y += cc[1] * (0.35 + frac * 0.65) + burst;
-          z += cc[2] * (0.35 + frac * 0.65) + burst;
-          const col = frac > 0.45 ? C_CORAL : C_CORAL_HI;
-          setP(b, i, cx + x, y, z, col, 1.9 + frac * 0.55, 0.96, cx, 0, 0, 1, 0, 0.0, frac, 3.2, 0.04);
+          const burst = (rand() - 0.5) * 0.11;
+          x = lx + vSnap(Math.min(1.95, x + cc[0] * (0.22 + frac * 0.42) + burst), 0.045);
+          y = vSnap(y + cc[1] * (0.3 + frac * 0.55) + burst, 0.045);
+          z = vSnap(z + cc[2] * (0.3 + frac * 0.65) + burst, 0.045);
+          const col = frac > 0.68 ? C_CORAL_HI : (frac > 0.25 ? C_CORAL : C_DEEP_CORAL);
+          setP(b, i, x, y, z, col, frac > 0.65 ? 2.15 : 1.75, 0.98, lx, 0, 0, 1, 0, 0.0, frac, 3.2, 0.035, -1.0);
         } else {
-          // Intact left & upper sphere in clean silver-white
-          const col = i % 5 === 0 ? C_WHITE : (i % 3 === 0 ? C_STEEL : C_SILVER);
-          setP(b, i, cx + x, y, z, col, 1.72, 0.9, cx, 0, 0, 1, 0, 0.0, (yNorm + 1) * 0.5, 1.4, 0.014);
+          if (isContour) {
+            const latSnap = Math.round(yNorm * 8) / 8;
+            const rS = Math.sqrt(Math.max(0, 1 - latSnap * latSnap));
+            x = lx + Math.cos(theta) * rS * (R + 0.02);
+            y = latSnap * (R + 0.02);
+            z = Math.sin(theta) * rS * (R + 0.02);
+          } else {
+            x = lx + vSnap(x, 0.04);
+            y = vSnap(y, 0.04);
+            z = vSnap(z, 0.04);
+          }
+          const edgeFactor = Math.abs(fractureZone) < 0.28 ? 1 : 0;
+          const col = edgeFactor
+            ? C_MINT_HI
+            : (isContour ? C_WHITE : (yNorm > 0.25 ? C_EMERALD : (yNorm > -0.35 ? C_DARK_EMERALD : C_DEEP_EMERALD)));
+          setP(b, i, x, y, z, col, isContour || edgeFactor ? 2.0 : 1.72, 0.96, lx, 0, 0, 1, 0, 0.0, (yNorm + 1) * 0.5, 1.6, 0.014, -1.0);
         }
       }
       return b;
     }
 
     // ---------------------------------------------------------
-    // STATE 3 (Slide 04, RIGHT): Closed Interception Polygon "Red Team × Blue Team"
+    // STATE 3 (Slide 04, RIGHT): Enlarged Voxel-Dense Interception Polygon (Red Team × Blue Team)
     // ---------------------------------------------------------
     function buildState04_Accelerator() {
       const b = makeShapeBuffer();
-      const cx = 2.45;
+      const s = MODEL_SCALE;
       let idx = 0;
 
-      // 1) Blue Team Defense Dome (R = 1.15) — 20,000 pts
-      const domeN = 20000;
-      const domeR = 1.15;
+      // 1) Enlarged Blue Team Defense Dome (R = 1.24 * 1.35 ≈ 1.67) — 26,000 pts
+      const domeR = 1.24 * s;
+      const domeN = 26000;
       for (let i = 0; i < domeN; i++) {
+        const isGridEdge = i % 5 === 0;
         const y = 1 - (i / (domeN - 1)) * 2;
         const rSlice = Math.sqrt(Math.max(0, 1 - y * y));
         const theta = i * GOLDEN_ANGLE;
-        const col = i % 4 === 0 ? C_MINT : C_EMERALD;
-        setP(
-          b,
-          idx++,
-          cx + Math.cos(theta) * rSlice * domeR,
-          y * domeR,
-          Math.sin(theta) * rSlice * domeR,
-          col,
-          1.7,
-          0.9,
-          cx,
-          0,
-          0,
-          1,
-          0,
-          0.14,
-          (y + 1) * 0.5,
-          1.8,
-          0.012
-        );
+        const px = vSnap(Math.cos(theta) * rSlice * domeR, 0.036);
+        const py = vSnap(y * domeR, 0.036);
+        const pz = vSnap(Math.sin(theta) * rSlice * domeR, 0.036);
+        const col = isGridEdge ? C_MINT_HI : (y > 0.15 ? C_MINT : (y > -0.4 ? C_EMERALD : C_DEEP_EMERALD));
+        setP(b, idx++, px, py, pz, col, isGridEdge ? 1.95 : 1.68, 0.95, 0, 0, 0, 1, 0, 0.12, (y + 1) * 0.5, 2.0, 0.012, 1.0);
       }
 
-      // 2) Bright Stabilized Inner Core (R = 0.36) — 6,000 pts
-      for (let i = 0; i < 6000; i++) {
-        const y = 1 - (i / 5999) * 2;
+      // 2) Bright Stabilized Inner Core (R = 0.42 * 1.35) — 8,000 pts
+      const coreR = 0.42 * s;
+      for (let i = 0; i < 8000; i++) {
+        const y = 1 - (i / 7999) * 2;
         const rSlice = Math.sqrt(Math.max(0, 1 - y * y));
         const theta = i * GOLDEN_ANGLE;
-        const r = 0.36 * (0.78 + rand() * 0.22);
-        setP(
-          b,
-          idx++,
-          cx + Math.cos(theta) * rSlice * r,
-          y * r,
-          Math.sin(theta) * rSlice * r,
-          i % 3 === 0 ? C_WHITE : C_MINT_HI,
-          2.05,
-          0.98,
-          cx,
-          0,
-          0,
-          1,
-          0,
-          0.14,
-          rand(),
-          2.4,
-          0.01
-        );
+        const r = coreR * (0.75 + rand() * 0.25);
+        setP(b, idx++, Math.cos(theta) * rSlice * r, y * r, Math.sin(theta) * rSlice * r, i % 3 === 0 ? C_WHITE : C_MINT_HI, 2.05, 0.98, 0, 0, 0, 1, 0, 0.12, rand(), 2.6, 0.01, 1.0);
       }
 
-      // 3) Outer Coral Red-Team Attack Emitter Ring (R = 1.95, tilted) — 14,000 pts
-      const ringEuler = new THREE.Euler(0.45, 0.12, -0.22);
+      // 3) Enlarged Outer Coral Attack Emitter Ring & Dense Orbit Flow (R = 2.05 * 1.35 ≈ 2.77) — 22,000 pts
+      const ringR = 2.05 * s;
+      const ringEuler = new THREE.Euler(0.46, 0.14, -0.24);
       const ringQ = new THREE.Quaternion().setFromEuler(ringEuler);
+      const rayCount = 14;
       const ringPts = [];
-      const rayCount = 12;
       for (let k = 0; k < rayCount; k++) {
         const a = (k / rayCount) * Math.PI * 2;
-        const pOut = new THREE.Vector3(Math.cos(a) * 1.95, Math.sin(a) * 1.95, 0).applyQuaternion(ringQ);
-        // Add slight vertical elevation variety so attacks come around the dome
-        if (k % 3 === 1) pOut.y += 0.32;
-        if (k % 3 === 2) pOut.y -= 0.32;
-        pOut.normalize().multiplyScalar(1.95);
+        const pOut = new THREE.Vector3(Math.cos(a) * ringR, Math.sin(a) * ringR, 0).applyQuaternion(ringQ);
+        if (k % 3 === 1) pOut.y += 0.42;
+        if (k % 3 === 2) pOut.y -= 0.42;
+        pOut.normalize().multiplyScalar(ringR);
         ringPts.push(pOut);
       }
 
       const v = new THREE.Vector3();
-      for (let i = 0; i < 14000; i++) {
+      for (let i = 0; i < 22000; i++) {
         const u = rand() * Math.PI * 2;
         const tv = rand() * Math.PI * 2;
-        const tr = 0.065 * Math.sqrt(rand());
+        const tr = (i < 15000 ? 0.075 : 0.18) * s * Math.sqrt(rand());
         v.set(
-          (1.95 + tr * Math.cos(tv)) * Math.cos(u),
-          (1.95 + tr * Math.cos(tv)) * Math.sin(u),
+          (ringR + tr * Math.cos(tv)) * Math.cos(u),
+          (ringR + tr * Math.cos(tv)) * Math.sin(u),
           tr * Math.sin(tv)
         ).applyQuaternion(ringQ);
-        setP(b, idx++, cx + v.x, v.y, v.z, i % 4 === 0 ? C_CORAL_HI : C_CORAL, 1.85, 0.94, cx, 0, 0, 1, 0, 0.14, u / (Math.PI * 2), 2.8, 0.012);
+        const col = i < 15000 ? (i % 4 === 0 ? C_CORAL_HI : C_CORAL) : C_DEEP_CORAL;
+        setP(b, idx++, vSnap(v.x, 0.03), vSnap(v.y, 0.03), vSnap(v.z, 0.03), col, i < 15000 ? 1.85 : 1.55, 0.94, 0, 0, 0, 1, 0, 0.12, u / (Math.PI * 2), 3.4, 0.014, 1.0);
       }
 
-      // 4) 12 Attack Trajectories (From Outer Emitter to R = 1.15 Dome Barrier) — 18,000 pts
+      // 4) 14 Attack Trajectories Striking the Dome — 24,000 pts
       const impactPoints = [];
       for (let k = 0; k < rayCount; k++) {
         const pStart = ringPts[k];
-        const pEnd = pStart.clone().normalize().multiplyScalar(domeR); // stops right at barrier surface!
+        const pEnd = pStart.clone().normalize().multiplyScalar(domeR);
         impactPoints.push(pEnd);
-        const mid = pStart.clone().lerp(pEnd, 0.5).add(new THREE.Vector3(0, (k % 2 === 0 ? 0.22 : -0.22), 0.15));
+        const mid = pStart.clone().lerp(pEnd, 0.5).add(new THREE.Vector3(0, k % 2 === 0 ? 0.28 : -0.28, 0.2));
         const curve = new THREE.QuadraticBezierCurve3(pStart, mid, pEnd);
         const pTmp = new THREE.Vector3();
 
-        const raysPts = 1500;
+        const raysPts = Math.floor(24000 / rayCount);
         for (let i = 0; i < raysPts; i++) {
           const t = rand();
           curve.getPoint(t, pTmp);
-          const spread = 0.025 * (1 - t * 0.4);
+          const spread = 0.032 * (1 - t * 0.45);
+          const col = t > 0.82 ? C_CORAL_HI : (t > 0.35 ? C_CORAL : C_DEEP_CORAL);
           setP(
             b,
             idx++,
-            cx + pTmp.x + (rand() - 0.5) * spread,
+            pTmp.x + (rand() - 0.5) * spread,
             pTmp.y + (rand() - 0.5) * spread,
             pTmp.z + (rand() - 0.5) * spread,
-            t > 0.8 ? C_CORAL_HI : C_CORAL,
+            col,
             1.85,
             0.96,
-            cx,
+            0,
             0,
             0,
             1,
             0,
-            0.14,
+            0.12,
             t,
-            4.2,
-            0.01
+            4.5,
+            0.01,
+            1.0
           );
         }
       }
 
-      // 5) Concentric Interception Ripple Points on the Barrier Surface — remaining 12,000 pts
+      // 5) Bright Concentric Interception Ripple Flashes on Barrier Surface — remaining ~20,000 pts
       const ripplesPerHit = Math.floor((PARTICLE_COUNT - idx) / rayCount);
       impactPoints.forEach((hit) => {
         const n = hit.clone().normalize();
@@ -1370,34 +1406,34 @@
         const tY = new THREE.Vector3().crossVectors(n, tX).normalize();
 
         for (let i = 0; i < ripplesPerHit; i++) {
-          const ringTier = i % 3;
-          const r = 0.06 + ringTier * 0.075 + (rand() - 0.5) * 0.015;
+          const ringTier = i % 4;
+          const r = (0.06 + ringTier * 0.085) * s + (rand() - 0.5) * 0.018;
           const a = rand() * Math.PI * 2;
           const pSurf = hit.clone()
             .addScaledVector(tX, Math.cos(a) * r)
             .addScaledVector(tY, Math.sin(a) * r)
             .normalize()
-            .multiplyScalar(domeR + 0.02);
-          const col = ringTier === 0 ? C_WHITE : (ringTier === 1 ? C_MINT_HI : C_CORAL_HI);
-          setP(b, idx++, cx + pSurf.x, pSurf.y, pSurf.z, col, ringTier === 0 ? 2.3 : 1.85, 0.98, cx, 0, 0, 1, 0, 0.14, ringTier / 3, 4.0, 0.008);
+            .multiplyScalar(domeR + 0.025);
+          const col = ringTier === 0 ? C_WHITE : (ringTier === 1 ? C_MINT_HI : (ringTier === 2 ? C_CORAL_HI : C_EMERALD));
+          setP(b, idx++, pSurf.x, pSurf.y, pSurf.z, col, ringTier === 0 ? 2.35 : 1.9, 0.98, 0, 0, 0, 1, 0, 0.12, ringTier / 4, 4.4, 0.008, 1.0);
         }
       });
 
       while (idx < PARTICLE_COUNT) {
-        setP(b, idx++, cx, 0, 0, C_WHITE, 2.0, 0.95, cx, 0, 0, 1, 0, 0.14, 0, 2.0, 0.008);
+        setP(b, idx++, 0, 0, 0, C_WHITE, 2.0, 0.95, 0, 0, 0, 1, 0, 0.12, 0, 2.0, 0.008, 1.0);
       }
       return b;
     }
 
     // ---------------------------------------------------------
-    // STATE 4 (Slide 05, AMBIENT DECOR): Three Wide Elliptical Orbits with Data Packets (alpha ~0.34)
+    // STATE 4 (Slide 05, AMBIENT DECOR): Three Wide Elliptical Orbits
     // ---------------------------------------------------------
     function buildState05_OrbitsDecor() {
       const b = makeShapeBuffer();
       const orbits = [
-        { rx: 4.5, ry: 1.15, tiltZ: 0.12, tiltX: 0.35, yOff: 0.1, speed: 1.8 },
-        { rx: 3.9, ry: 1.45, tiltZ: -0.18, tiltX: -0.25, yOff: -0.2, speed: 2.3 },
-        { rx: 4.8, ry: 0.85, tiltZ: 0.04, tiltX: 0.55, yOff: -0.45, speed: 1.5 }
+        { rx: 5.5, ry: 1.35, tiltZ: 0.12, tiltX: 0.35, yOff: 0.1, speed: 1.8 },
+        { rx: 4.8, ry: 1.7, tiltZ: -0.18, tiltX: -0.25, yOff: -0.2, speed: 2.3 },
+        { rx: 5.9, ry: 1.0, tiltZ: 0.04, tiltX: 0.55, yOff: -0.45, speed: 1.5 }
       ];
       const q = new THREE.Quaternion();
       const e = new THREE.Euler();
@@ -1412,18 +1448,18 @@
         const jitter = (rand() - 0.5) * 0.08;
         v.set(Math.cos(ang) * (o.rx + jitter), Math.sin(ang) * (o.ry + jitter), (rand() - 0.5) * 0.06).applyQuaternion(q);
         const col = i % 5 === 0 ? C_MINT : C_STEEL;
-        setP(b, i, v.x, v.y + o.yOff, v.z - 0.4, col, 1.6, 0.34, 0, 0, 0, 1, 0, 0.0, ang / (Math.PI * 2), o.speed, 0.03);
+        setP(b, i, v.x, v.y + o.yOff, v.z - 0.4, col, 1.55, 0.34, 0, 0, 0, 1, 0, 0.0, ang / (Math.PI * 2), o.speed, 0.03, 0.0);
       }
       return b;
     }
 
     // ---------------------------------------------------------
-    // STATE 5 (Slide 06, CENTER): Two Identical 1.7x1.7x1.7 Cubes (Black-Box vs White-Box Octahedral Lattice)
+    // STATE 5 (Slide 06, CENTER): Two Enlarged Cubes (+35%, at x = ±1.75)
     // ---------------------------------------------------------
     function buildState06_BlackVsWhite() {
       const b = makeShapeBuffer();
-      const cy = 0.28;
-      const S = 1.7;
+      const cy = 0.12;
+      const S = 1.7 * MODEL_SCALE; // 2.295 (+35%)
       let idx = 0;
 
       const edges = [
@@ -1432,27 +1468,26 @@
         [[-1,-1,-1],[-1,-1,1]], [[1,-1,-1],[1,-1,1]], [[-1,1,-1],[-1,1,1]], [[1,1,-1],[1,1,1]]
       ];
 
-      // LEFT (35,000 pts): Opaque dark graphite cube (1.7 x 1.7 x 1.7) + bright silver edges + emerald horizontal scan line
+      // LEFT (50,000 pts): Opaque dark graphite voxel cube (x = -1.75)
       const lx = -1.75;
 
-      // 23,500 dense dark opaque fill
-      for (let i = 0; i < 23500; i++) {
+      for (let i = 0; i < 33000; i++) {
         const face = i % 6;
         let u = (rand() - 0.5) * S;
         let v = (rand() - 0.5) * S;
         let w = (rand() - 0.5) * S;
-        const inset = rand() * 0.09;
+        const inset = rand() * 0.11;
         if (face === 0) u = S / 2 - inset;
         else if (face === 1) u = -S / 2 + inset;
         else if (face === 2) v = S / 2 - inset;
         else if (face === 3) v = -S / 2 + inset;
         else if (face === 4) w = S / 2 - inset;
         else w = -S / 2 + inset;
-        setP(b, idx++, lx + u, cy + v, w, C_DARK, 3.2, 0.97, lx, cy, 0, 1, 0, 0.22, 0, 0, 0.006);
+        setP(b, idx++, lx + vSnap(u, 0.04), cy + vSnap(v, 0.04), vSnap(w, 0.04), C_DARK, 3.3, 0.98, lx, cy, 0, 1, 0, 0.22, 0, 0, 0.006, 0.0);
       }
 
-      // 7,500 bright silver cube edges
-      for (let i = 0; i < 7500; i++) {
+      // Crisp voxel silver contour edges
+      for (let i = 0; i < 11000; i++) {
         const [p1, p2] = edges[i % 12];
         const t = rand();
         setP(
@@ -1461,9 +1496,9 @@
           lx + (p1[0] + (p2[0] - p1[0]) * t) * (S / 2),
           cy + (p1[1] + (p2[1] - p1[1]) * t) * (S / 2),
           (p1[2] + (p2[2] - p1[2]) * t) * (S / 2),
-          C_SILVER,
-          1.95,
-          0.96,
+          i % 4 === 0 ? C_WHITE : C_SILVER,
+          2.05,
+          0.98,
           lx,
           cy,
           0,
@@ -1472,29 +1507,29 @@
           0.22,
           t,
           0,
-          0.006
+          0.006,
+          0.0
         );
       }
 
-      // 4,000 bright emerald horizontal scanner line around all 4 vertical faces
-      for (let i = 0; i < 4000; i++) {
+      // Bright emerald horizontal scanner band
+      for (let i = 0; i < 6000; i++) {
         const side = i % 4;
         const u = (rand() - 0.5) * S;
-        const v = (rand() - 0.5) * 0.06;
-        const half = S / 2 + 0.02;
+        const v = (rand() - 0.5) * 0.08;
+        const half = S / 2 + 0.025;
         let x, z;
         if (side === 0)      { x = u; z = half; }
         else if (side === 1) { x = u; z = -half; }
         else if (side === 2) { x = half; z = u; }
         else                 { x = -half; z = u; }
-        setP(b, idx++, lx + x, cy + v, z, C_MINT, 2.4, 1.0, lx, cy, 0, 1, 0, 0.22, (u + half) / S, 3.0, 0.008);
+        setP(b, idx++, lx + x, cy + v, z, i % 3 === 0 ? C_MINT_HI : C_MINT, 2.4, 1.0, lx, cy, 0, 1, 0, 0.22, (u + half) / S, 3.2, 0.008, 0.0);
       }
 
-      // RIGHT (35,000 pts): Transparent White-Box cube (1.7 x 1.7 x 1.7) + Symmetrical Emerald Octahedral Node Lattice
+      // RIGHT (50,000 pts): White-Box cube with Symmetrical Emerald Octahedral Lattice (x = +1.75)
       const rx = 1.75;
 
-      // 11,500 crisp cube frame edges
-      for (let i = 0; i < 11500; i++) {
+      for (let i = 0; i < 16000; i++) {
         const [p1, p2] = edges[i % 12];
         const t = rand();
         setP(
@@ -1503,9 +1538,9 @@
           rx + (p1[0] + (p2[0] - p1[0]) * t) * (S / 2),
           cy + (p1[1] + (p2[1] - p1[1]) * t) * (S / 2),
           (p1[2] + (p2[2] - p1[2]) * t) * (S / 2),
-          C_SILVER,
-          1.85,
-          0.92,
+          i % 3 === 0 ? C_MINT : C_SILVER,
+          1.9,
+          0.95,
           rx,
           cy,
           0,
@@ -1514,12 +1549,12 @@
           -0.22,
           t,
           0,
-          0.006
+          0.006,
+          0.0
         );
       }
 
-      // Symmetrical octahedral lattice inside (6 octahedral vertices + center + 12 midpoints)
-      const octR = 0.62;
+      const octR = 0.64 * MODEL_SCALE;
       const octVerts = [
         new THREE.Vector3(octR, 0, 0),
         new THREE.Vector3(-octR, 0, 0),
@@ -1536,21 +1571,21 @@
         [6, 0], [6, 1], [6, 2], [6, 3], [6, 4], [6, 5]
       ];
 
-      // 16,500 pts along octahedral lattice struts
-      for (let i = 0; i < 16500; i++) {
+      for (let i = 0; i < 24000; i++) {
         const [a, c] = octLinks[i % octLinks.length];
         const vA = octVerts[a];
         const vB = octVerts[c];
         const t = rand();
+        const col = t > 0.7 || t < 0.3 ? C_MINT_HI : (i % 3 === 0 ? C_EMERALD : C_DEEP_EMERALD);
         setP(
           b,
           idx++,
-          rx + vA.x + (vB.x - vA.x) * t + (rand() - 0.5) * 0.012,
-          cy + vA.y + (vB.y - vA.y) * t + (rand() - 0.5) * 0.012,
-          vA.z + (vB.z - vA.z) * t + (rand() - 0.5) * 0.012,
-          i % 4 === 0 ? C_WHITE : C_EMERALD,
-          1.85,
-          0.94,
+          rx + vA.x + (vB.x - vA.x) * t + (rand() - 0.5) * 0.015,
+          cy + vA.y + (vB.y - vA.y) * t + (rand() - 0.5) * 0.015,
+          vA.z + (vB.z - vA.z) * t + (rand() - 0.5) * 0.015,
+          col,
+          1.9,
+          0.96,
           rx,
           cy,
           0,
@@ -1558,15 +1593,15 @@
           0,
           -0.22,
           t,
-          2.6,
-          0.008
+          2.8,
+          0.008,
+          0.0
         );
       }
 
-      // 7,000 pts clustered at the 7 octahedral symmetry nodes
       while (idx < PARTICLE_COUNT) {
         const n = octVerts[idx % octVerts.length];
-        const nr = (n.length() < 0.05 ? 0.13 : 0.09) * Math.cbrt(rand());
+        const nr = (n.length() < 0.05 ? 0.16 : 0.11) * MODEL_SCALE * Math.cbrt(rand());
         const th = rand() * Math.PI * 2;
         const ph = Math.acos(2 * rand() - 1);
         setP(
@@ -1575,8 +1610,8 @@
           rx + n.x + nr * Math.sin(ph) * Math.cos(th),
           cy + n.y + nr * Math.cos(ph),
           n.z + nr * Math.sin(ph) * Math.sin(th),
-          n.length() < 0.05 ? C_WHITE : C_MINT,
-          2.45,
+          n.length() < 0.05 ? C_WHITE : C_MINT_HI,
+          2.4,
           0.98,
           rx,
           cy,
@@ -1585,110 +1620,133 @@
           0,
           -0.22,
           rand(),
-          2.8,
-          0.01
+          3.0,
+          0.01,
+          0.0
         );
       }
       return b;
     }
 
     // ---------------------------------------------------------
-    // STATE 6 (Slide 07, LEFT, x = -2.15): 5 Crisp Vertical Rectangular Columns
+    // STATE 6 (Slide 07, LEFT, x = -1.95): Massive Voxel-Edged 3D Bar Chart
     // ---------------------------------------------------------
     function buildState07_TelegramBars() {
       const b = makeShapeBuffer();
-      const cx = -2.15;
-      const baseY = -1.32;
+      const s = 1.24; // massive bars fitting completely in left column
+      const lxOff = -0.62; // shifts chart safely clear of the right text table
+      const baseY = -1.32 * s;
       let idx = 0;
 
-      // 6,000 pts: Subtle crisp base line/grid footprint (x in [-3.55, -0.75], zero clipping)
-      for (let i = 0; i < 6000; i++) {
+      // 12,000 pts: Crisp coordinate grid base covering left column cleanly
+      for (let i = 0; i < 12000; i++) {
         const isX = i % 2 === 0;
-        const line = Math.floor(i / 2) % 10;
-        const u = (line / 9) * 2 - 1;
+        const line = Math.floor(i / 2) % 12;
+        const u = (line / 11) * 2 - 1;
         const v = rand() * 2 - 1;
-        const x = cx + (isX ? v : u) * 1.42;
-        const z = (isX ? u : v) * 0.56;
-        setP(b, idx++, x, baseY, z, C_STEEL, 1.45, 0.65, cx, 0, 0, 1, 0, 0.0, rand(), 0, 0.008);
+        const x = lxOff + (isX ? v : u) * 1.44 * s;
+        const z = (isX ? u : v) * 0.58 * s;
+        setP(b, idx++, x, baseY, z, i % 4 === 0 ? C_SILVER : C_STEEL, 1.5, 0.72, lxOff, 0, 0, 1, 0, 0.0, rand(), 0, 0.008, -1.0);
       }
 
-      // 64,000 pts across 5 rectangular columns
+      // 88,000 pts across 5 wider, massive columns with crisp edge frames + deep gradients
       const cols = [
-        { x: -1.10, h: 2.68, ok: true,  pts: 26000 }, // 99.9%
-        { x: -0.55, h: 0.58, ok: false, pts: 10500 }, // 15.4%
-        { x:  0.00, h: 0.58, ok: false, pts: 10500 }, // 15.4%
-        { x:  0.55, h: 0.34, ok: false, pts: 9000 },  // 8.3%
-        { x:  1.10, h: 0.08, ok: false, pts: 8000 }   // 0.0%
+        { x: -1.10 * s, h: 2.75 * s, ok: true,  pts: 34000 }, // 99.9%
+        { x: -0.55 * s, h: 0.62 * s, ok: false, pts: 15000 }, // 15.4%
+        { x:  0.00 * s, h: 0.62 * s, ok: false, pts: 15000 }, // 15.4%
+        { x:  0.55 * s, h: 0.36 * s, ok: false, pts: 13000 }, // 8.3%
+        { x:  1.10 * s, h: 0.10 * s, ok: false, pts: 11000 }  // 0.0%
       ];
 
-      const colW = 0.36;
+      const colW = 0.41 * s;
+      const half = colW * 0.5;
       cols.forEach((c) => {
         for (let i = 0; i < c.pts; i++) {
           let lx, ly, lz;
-          const mode = i % 10;
-          if (mode <= 1) {
-            lx = c.x + (rand() - 0.5) * colW;
+          const mode = i % 12;
+          let isEdge = false;
+
+          if (mode === 0) {
+            isEdge = true;
+            const eKind = i % 3;
+            if (eKind === 0) {
+              const corner = Math.floor(rand() * 4);
+              lx = c.x + (corner % 2 === 0 ? half : -half);
+              lz = (corner < 2 ? half : -half);
+              ly = baseY + rand() * c.h;
+            } else {
+              const side = Math.floor(rand() * 4);
+              const u = (rand() - 0.5) * colW;
+              if (side === 0)      { lx = c.x + u; lz = half; }
+              else if (side === 1) { lx = c.x + u; lz = -half; }
+              else if (side === 2) { lx = c.x + half; lz = u; }
+              else                 { lx = c.x - half; lz = u; }
+              ly = baseY + (eKind === 1 ? c.h : 0);
+            }
+          } else if (mode <= 2) {
+            lx = c.x + vSnap((rand() - 0.5) * colW, 0.032);
             ly = baseY + c.h;
-            lz = (rand() - 0.5) * colW;
+            lz = vSnap((rand() - 0.5) * colW, 0.032);
           } else {
             const face = i % 4;
-            const u = (rand() - 0.5) * colW;
-            const half = colW * 0.5;
+            const u = vSnap((rand() - 0.5) * colW, 0.032);
             if (face === 0)      { lx = c.x + u; lz = half; }
             else if (face === 1) { lx = c.x + u; lz = -half; }
             else if (face === 2) { lx = c.x + half; lz = u; }
             else                 { lx = c.x - half; lz = u; }
-            ly = baseY + rand() * c.h;
+            ly = baseY + vSnap(rand() * c.h, 0.032);
           }
+
           const hFrac = Math.max(0, (ly - baseY) / Math.max(0.01, c.h));
-          const col = c.ok ? (hFrac > 0.72 || mode <= 1 ? C_MINT : C_EMERALD) : (mode <= 1 ? C_CORAL_HI : C_CORAL);
-          setP(b, idx++, cx + lx, ly, lz, col, mode <= 1 ? 2.1 : 1.75, 0.94, cx, 0, 0, 1, 0, 0.0, hFrac, 2.0, 0.008);
+          const col = c.ok
+            ? (isEdge || hFrac > 0.8 ? C_MINT_HI : (hFrac > 0.35 ? C_EMERALD : C_DEEP_EMERALD))
+            : (isEdge || mode <= 2 ? C_CORAL_HI : (hFrac > 0.35 ? C_CORAL : C_DEEP_CORAL));
+          setP(b, idx++, lxOff + lx, ly, lz, col, isEdge ? 2.15 : 1.75, 0.96, lxOff, 0, 0, 1, 0, 0.0, hFrac, 2.2, 0.008, -1.0);
         }
       });
       return b;
     }
 
     // ---------------------------------------------------------
-    // STATE 7 (Slide 08, AMBIENT DECOR): Isometric Telemetry Matrix (alpha ~0.34)
+    // STATE 7 (Slide 08, AMBIENT DECOR): Isometric Telemetry Matrix (kept cleanly below cards)
     // ---------------------------------------------------------
     function buildState08_MatrixDecor() {
       const b = makeShapeBuffer();
-      const isoEuler = new THREE.Euler(0.32, 0.65, 0);
+      const isoEuler = new THREE.Euler(0.16, 0.42, 0);
       const isoQ = new THREE.Quaternion().setFromEuler(isoEuler);
       const v = new THREE.Vector3();
 
       for (let i = 0; i < PARTICLE_COUNT; i++) {
-        if (i < 55000) {
-          // Isometric grid lines
+        if (i < 78000) {
           const isU = i % 2 === 0;
           const lineIdx = Math.floor(i / 2) % 24;
           const a = (lineIdx / 23) * 2 - 1;
           const t = rand() * 2 - 1;
-          v.set((isU ? t : a) * 4.4, 0, (isU ? a : t) * 2.8).applyQuaternion(isoQ);
-          setP(b, i, v.x, v.y - 1.95, v.z - 0.8, C_STEEL, 1.45, 0.32, 0, -1.95, 0, 1, 0, 0.0, (a + 1) * 0.5, 1.5, 0.02);
+          v.set((isU ? t : a) * 3.8, 0, (isU ? a : t) * 0.9).applyQuaternion(isoQ);
+          setP(b, i, v.x, v.y - 2.75, v.z - 0.8, C_STEEL, 1.35, 0.25, 0, -2.75, 0, 1, 0, 0.0, (a + 1) * 0.5, 1.5, 0.02, 0.0);
         } else {
-          // Sparse glowing emerald telemetry nodes on grid intersections
-          const gx = (Math.floor(rand() * 12) - 5.5) * 0.72;
-          const gz = (Math.floor(rand() * 8) - 3.5) * 0.68;
-          v.set(gx, 0.05, gz).applyQuaternion(isoQ);
+          const gx = (Math.floor(rand() * 12) - 5.5) * 0.62;
+          const gz = (Math.floor(rand() * 4) - 1.5) * 0.48;
+          v.set(gx, 0.03, gz).applyQuaternion(isoQ);
           setP(
             b,
             i,
-            v.x + (rand() - 0.5) * 0.08,
-            v.y - 1.95 + (rand() - 0.5) * 0.08,
-            v.z - 0.8 + (rand() - 0.5) * 0.08,
+            v.x + (rand() - 0.5) * 0.07,
+            v.y - 2.75 + (rand() - 0.5) * 0.07,
+            v.z - 0.8 + (rand() - 0.5) * 0.07,
             C_MINT,
-            2.1,
-            0.38,
+            1.85,
+            0.30,
             0,
-            -1.95,
+            -2.75,
             0,
             1,
             0,
             0.0,
-            (gx + 4.4) / 8.8,
+            (gx + 3.8) / 7.6,
             2.8,
-            0.025
+            0.02,
+            0.0
           );
         }
       }
@@ -1702,7 +1760,6 @@
       return buildVigiliaEye(true);
     }
 
-    // Build all 9 states (slides 0..8)
     const states = [
       buildState01_RadarAperture(),
       buildState02_HorizonDecor(),
@@ -1730,7 +1787,7 @@
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.set(0, 0.05, 10.6);
+    camera.position.set(0, 0.05, 10.2);
 
     const s0 = states[0];
     const geometry = new THREE.BufferGeometry();
@@ -1749,7 +1806,7 @@
     const seedArr = new Float32Array(PARTICLE_COUNT);
     for (let i = 0; i < PARTICLE_COUNT; i++) seedArr[i] = rand();
 
-    // 11 attributes total (safely below WebGL MAX_VERTEX_ATTRIBS = 16)
+    // 11 attributes total (below WebGL MAX_VERTEX_ATTRIBS = 16)
     geometry.setAttribute('position', posAttr);
     geometry.setAttribute('aTargetPos', targetPosAttr);
     geometry.setAttribute('aColor', colAttr);
@@ -1766,8 +1823,10 @@
       uTime: { value: 0 },
       uMorph: { value: 1.0 },
       uGlitch: { value: 0.0 },
+      uXOffset: { value: computeXOffset() },
+      uBarShiftX: { value: -1.95 },
       uMouse: { value: new THREE.Vector2(0, 0) },
-      uBaseTilt: { value: new THREE.Vector2(0.08, -0.15) },
+      uBaseTilt: { value: new THREE.Vector2(0.06, -0.22) },
       uPixelRatio: { value: dpr }
     };
 
@@ -1779,13 +1838,14 @@
       attribute vec4 aTargetSpin;
       attribute vec4 aPropsA; // size, alpha, phase, pulseSpeed
       attribute vec4 aPropsB;
-      attribute vec4 aMetaA;  // pivotX, pivotY, noiseAmp, unused
+      attribute vec4 aMetaA;  // pivotX, pivotY, noiseAmp, sideSign
       attribute vec4 aMetaB;
       attribute float aSeed;
 
       uniform float uTime;
       uniform float uMorph;
       uniform float uGlitch;
+      uniform float uXOffset;
       uniform vec2 uMouse;
       uniform vec2 uBaseTilt;
       uniform float uPixelRatio;
@@ -1795,7 +1855,6 @@
       varying float vPacket;
       varying float vGlitchFlash;
 
-      // 3D Simplex Noise
       vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
       vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
       vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }
@@ -1845,8 +1904,8 @@
       }
 
       vec3 multiCurl(vec3 p, float t) {
-        vec3 q1 = p * 0.72 + vec3(t * 0.14, -t * 0.11, t * 0.12);
-        vec3 q2 = p * 1.95 - vec3(t * 0.22, t * 0.17, -t * 0.19);
+        vec3 q1 = p * 0.65 + vec3(t * 0.14, -t * 0.11, t * 0.12);
+        vec3 q2 = p * 1.8 - vec3(t * 0.22, t * 0.17, -t * 0.19);
         vec3 c1 = vec3(snoise(q1), snoise(q1 + vec3(19.3)), snoise(q1 + vec3(41.7)));
         vec3 c2 = vec3(snoise(q2 + vec3(7.1)), snoise(q2 + vec3(29.5)), snoise(q2 + vec3(53.2)));
         return c1 * 0.7 + c2 * 0.3;
@@ -1864,7 +1923,6 @@
         vec2 pivA = aMetaA.xy;
         vec2 pivB = aMetaB.xy;
 
-        // Rodrigues spin around each particle's own target/source ring axis
         vec3 relA = position - vec3(pivA, 0.0);
         vec3 relB = aTargetPos - vec3(pivB, 0.0);
         relA = rotateAxis(relA, normalize(aSpin.xyz + vec3(0.0, 0.0001, 0.0)), uTime * aSpin.w);
@@ -1875,7 +1933,7 @@
         vec3 morphedPos = mix(spunA, spunB, m);
         vec2 pivot = mix(pivA, pivB, m);
 
-        // Apply gentle per-slide isometric tilt around pivot
+        // Apply gentle per-slide isometric tilt around local pivot
         vec3 relTilt = morphedPos - vec3(pivot, 0.0);
         float cy = cos(uBaseTilt.y); float sy = sin(uBaseTilt.y);
         relTilt.xz = mat2(cy, -sy, sy, cy) * relTilt.xz;
@@ -1883,21 +1941,25 @@
         relTilt.yz = mat2(cx, -sx, sx, cx) * relTilt.yz;
         morphedPos = relTilt + vec3(pivot, 0.0);
 
+        // Position centered hero models closer to center via uXOffset * sideSign
+        float sideSign = mix(aMetaA.w, aMetaB.w, m);
+        morphedPos.x += sideSign * uXOffset;
+
         // Fluid transition arc
         float arc = sin(m * 3.14159265);
-        morphedPos.y += arc * (aSeed - 0.5) * 0.55;
-        morphedPos.z += arc * cos(aSeed * 12.56) * 0.65;
+        morphedPos.y += arc * (aSeed - 0.5) * 0.6;
+        morphedPos.z += arc * cos(aSeed * 12.56) * 0.7;
 
         // Multi-frequency curl noise breathing
         float amp = mix(aMetaA.z, aMetaB.z, m);
         morphedPos += multiCurl(morphedPos, uTime + aSeed * 0.25) * (amp + arc * 0.16);
 
         // Soft mouse interaction
-        vec3 cursorWorld = vec3(uMouse.x * 4.6, uMouse.y * 2.8, 0.35);
+        vec3 cursorWorld = vec3(uMouse.x * 5.2, uMouse.y * 3.1, 0.35);
         vec3 toCursor = morphedPos - cursorWorld;
         float distC = length(toCursor.xy);
-        float mouseInf = exp(-distC * distC * 0.65);
-        morphedPos += normalize(toCursor + vec3(0.0001)) * mouseInf * 0.15;
+        float mouseInf = exp(-distC * distC * 0.55);
+        morphedPos += normalize(toCursor + vec3(0.0001)) * mouseInf * 0.16;
 
         // Physical 3D Micro-Glitch: Scanline Tear (Y bands shifted ±0.25..0.45 in X/Z) + 3D Particle Scatter
         float timeTick = floor(uTime * 24.0);
@@ -1909,7 +1971,6 @@
         morphedPos.x += tearActive * tearSign * tearMag;
         morphedPos.z += tearActive * (fract(bandHash * 9.1) - 0.5) * 0.55;
 
-        // High-frequency 3D vibration and micro-particle scatter across X, Y, Z
         float vibTick = floor(uTime * 36.0);
         vec3 vibRand = vec3(
           fract(sin((aSeed * 91.7 + vibTick) * 12.9898) * 43758.5453) - 0.5,
@@ -1921,7 +1982,6 @@
 
         vGlitchFlash = max(tearActive, scatterMask);
 
-        // Directional telemetry packet wave along curves/rings/trees
         vec4 props = mix(aPropsA, aPropsB, m);
         float phase = props.z;
         float pSpeed = props.w;
@@ -1935,8 +1995,8 @@
         gl_Position = projectionMatrix * mvPosition;
 
         float baseSize = props.x;
-        float boost = 1.0 + wave * 0.55 + vGlitchFlash * 0.85 + mouseInf * 0.35;
-        gl_PointSize = clamp(baseSize * boost * uPixelRatio * (11.2 / -mvPosition.z), 1.15, 20.0);
+        float boost = 1.0 + wave * 0.5 + vGlitchFlash * 0.85 + mouseInf * 0.35;
+        gl_PointSize = clamp(baseSize * boost * uPixelRatio * (10.5 / -mvPosition.z), 1.1, 19.0);
       }
     `;
 
@@ -1953,7 +2013,7 @@
 
         float core = 1.0 - smoothstep(0.0, 0.22, dist);
         float edge = 1.0 - smoothstep(0.22, 0.50, dist);
-        float shapeAlpha = core * 0.7 + edge * 0.5;
+        float shapeAlpha = core * 0.72 + edge * 0.52;
 
         float luma = dot(vColor, vec3(0.299, 0.587, 0.114));
         float isBright = smoothstep(0.10, 0.40, luma);
@@ -1980,7 +2040,6 @@
     points.frustumCulled = false;
     scene.add(points);
 
-    // Morph state management
     let morphProgress = 1.0;
 
     function easeInOutCubic(x) {
@@ -2085,15 +2144,16 @@
       renderer.setPixelRatio(newDpr);
       renderer.setSize(window.innerWidth, window.innerHeight);
       uniforms.uPixelRatio.value = newDpr;
+      uniforms.uXOffset.value = computeXOffset();
     });
 
     const tiltBySlide = [
-      { rx: 0.06, ry: -0.24 }, // 01 VIGILIA Eye (angled slightly toward left title)
+      { rx: 0.06, ry: -0.22 }, // 01 VIGILIA Eye
       { rx: 0.04, ry: 0.0 },   // 02 Horizon Decor
       { rx: 0.08, ry: -0.1 },  // 03 Sphere Concept Drift
       { rx: 0.14, ry: -0.14 }, // 04 Closed Interception Polygon
       { rx: 0.05, ry: 0.0 },   // 05 Orbits Decor
-      { rx: 0.16, ry: 0.0 },   // 06 Dual 1.7x1.7x1.7 Cubes
+      { rx: 0.16, ry: 0.0 },   // 06 Dual Cubes
       { rx: 0.18, ry: 0.22 },  // 07 5 Rectangular Columns
       { rx: 0.04, ry: 0.0 },   // 08 Matrix Decor
       { rx: 0.04, ry: -0.08 }  // 09 Stabilized VIGILIA Eye
@@ -2110,13 +2170,11 @@
       const t = clock.getElapsedTime();
       uniforms.uTime.value = t;
 
-      // Advance morph (~0.95s)
       if (morphProgress < 1.0) {
         morphProgress = Math.min(1.0, morphProgress + dt * 1.1);
         uniforms.uMorph.value = easeInOutCubic(morphProgress);
       }
 
-      // Periodic glitch burst every ~4.0s (2-3 rapid impulses)
       const gCycle = t % 4.0;
       let glitchVal = 0.0;
       if (gCycle < 0.085) {
@@ -2145,7 +2203,6 @@
       renderer.render(scene, camera);
     }
 
-    // Load exact pixel-art VIGILIA eye emblem (/vigilia-eye.png) and populate States 0 & 8
     const eyeImg = new Image();
     eyeImg.src = '/vigilia-eye.png';
     eyeImg.onload = () => {
