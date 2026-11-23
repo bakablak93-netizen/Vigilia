@@ -1,0 +1,314 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --v4-bg: #0A0E0D;
+  --v4-surface: rgba(18, 24, 22, 0.80);
+  --v4-surface-elevated: rgba(22, 30, 27, 0.78);
+  --v4-surface-inset: rgba(11, 16, 14, 0.75);
+  --v4-green: #16A34A;
+  --v4-green-bright: #22C55E;
+  --v4-text: #F1F5F9;
+  --v4-text-muted: #94A3B8;
+  --v4-danger: #EF4444;
+  --v4-warning: #F59E0B;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    background-color: #0A0E0D;
+    color: #F1F5F9;
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* -------------------------------------------------------------------------- */
+/* VIGILIA — Borderless Dark Minimalism (Tonal Depth, Zero Harsh Borders)     */
+/* -------------------------------------------------------------------------- */
+.v4-surface,
+.lab-card {
+  background: rgba(18, 24, 22, 0.80);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: none;
+  border-radius: 22px;
+  box-shadow: 0 20px 44px -14px rgba(0, 0, 0, 0.58);
+  transition:
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 220ms ease,
+    box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.v4-surface-elevated,
+.dp-elevated {
+  background: rgba(22, 30, 27, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.48);
+  transition:
+    transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 220ms ease,
+    box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.v4-surface-elevated:hover,
+.dp-elevated:hover {
+  background: rgba(26, 36, 32, 0.88);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.56);
+}
+
+.v4-surface-inset {
+  background: rgba(11, 16, 14, 0.78);
+  border: none;
+  border-radius: 14px;
+}
+
+.lab-input {
+  @apply w-full rounded-xl px-3.5 py-2.5 text-[15px] text-[#F1F5F9] placeholder:text-[#64748B] bg-[#0B100E]/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#22C55E]/40 transition-all duration-150;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Clean Minimalist Buttons (Zero heavy borders, calm banking green)          */
+/* -------------------------------------------------------------------------- */
+.btn-primary,
+.lab-btn-accent {
+  @apply inline-flex items-center justify-center gap-2.5 rounded-full bg-[#16A34A] text-white px-6 py-3 text-[15px] font-semibold tracking-[0.01em] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#22C55E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0E0D] disabled:opacity-45 disabled:cursor-not-allowed;
+  box-shadow: 0 10px 24px -8px rgba(22, 163, 74, 0.42);
+}
+
+.btn-primary:hover:not(:disabled),
+.lab-btn-accent:hover:not(:disabled) {
+  background-color: #15803D;
+  transform: translateY(-1.5px);
+  box-shadow: 0 14px 28px -8px rgba(22, 163, 74, 0.52);
+}
+
+.btn-primary:active:not(:disabled),
+.lab-btn-accent:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn-subtle,
+.lab-btn-secondary,
+.lab-btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[#161E1B]/85 hover:bg-[#1E2925] text-[#F1F5F9] px-4 py-2.5 text-sm font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#22C55E]/40 disabled:opacity-45 disabled:cursor-not-allowed;
+}
+
+.btn-subtle:hover:not(:disabled),
+.lab-btn-secondary:hover:not(:disabled),
+.lab-btn-primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.btn-subtle:active:not(:disabled),
+.lab-btn-secondary:active:not(:disabled),
+.lab-btn-primary:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.lab-btn-danger {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl bg-[#EF4444]/15 hover:bg-[#EF4444]/25 text-[#EF4444] px-4 py-2.5 text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EF4444] disabled:opacity-45 disabled:cursor-not-allowed;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Animated Waves, Step Transitions, Stagger & Accordions                     */
+/* -------------------------------------------------------------------------- */
+@keyframes vigiliaWaveDrift1 {
+  0% {
+    transform: translate3d(-6%, 0px, 0);
+  }
+  50% {
+    transform: translate3d(3%, -22px, 0);
+  }
+  100% {
+    transform: translate3d(7%, 12px, 0);
+  }
+}
+
+@keyframes vigiliaWaveDrift2 {
+  0% {
+    transform: translate3d(6%, 12px, 0);
+  }
+  50% {
+    transform: translate3d(-4%, -18px, 0);
+  }
+  100% {
+    transform: translate3d(-7%, 6px, 0);
+  }
+}
+
+.v5-wave-1 {
+  animation: vigiliaWaveDrift1 11s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.v5-wave-2 {
+  animation: vigiliaWaveDrift2 13.5s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes focusFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stepScreenEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vigiliaShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes liveDotFlow {
+  0% {
+    stroke-dashoffset: 60;
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes modalOverlayEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.v5-modal-enter {
+  animation: modalOverlayEnter 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.focus-enter,
+.v4-reveal,
+.v5-step-enter {
+  animation: stepScreenEnter 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.v4-stagger > * {
+  animation: focusFadeIn 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.v4-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.v4-stagger > *:nth-child(2) { animation-delay: 50ms; }
+.v4-stagger > *:nth-child(3) { animation-delay: 100ms; }
+.v4-stagger > *:nth-child(4) { animation-delay: 150ms; }
+.v4-stagger > *:nth-child(5) { animation-delay: 200ms; }
+.v4-stagger > *:nth-child(6) { animation-delay: 250ms; }
+
+/* Smooth CSS Grid 0fr -> 1fr Accordion */
+.v4-accordion-grid {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.v4-accordion-grid.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.v4-accordion-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Shimmer Progress Strip */
+.v4-shimmer-track {
+  position: relative;
+  height: 4px;
+  width: 100%;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.v4-shimmer-bar {
+  height: 100%;
+  width: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    rgba(34, 197, 94, 0.15) 0%,
+    rgba(34, 197, 94, 0.95) 50%,
+    rgba(34, 197, 94, 0.15) 100%
+  );
+  background-size: 200% 100%;
+  animation: vigiliaShimmer 1.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.v5-flow-line-active {
+  stroke-dasharray: 6 6;
+  animation: liveDotFlow 1s linear forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .v5-wave-1,
+  .v5-wave-2,
+  .v5-modal-enter,
+  .focus-enter,
+  .v4-reveal,
+  .v5-step-enter,
+  .v4-stagger > *,
+  .v4-shimmer-bar,
+  .v5-flow-line-active {
+    animation: none !important;
+  }
+  .v4-accordion-grid,
+  .btn-primary:hover:not(:disabled),
+  .btn-subtle:hover:not(:disabled),
+  .v4-surface,
+  .v4-surface-elevated,
+  .dp-elevated {
+    transform: none !important;
+    transition: none !important;
+  }
+}

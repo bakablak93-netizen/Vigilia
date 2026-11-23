@@ -1,0 +1,29 @@
+{
+  "backend": {
+    "pid": 20060,
+    "port": 8001,
+    "title": "VIGILIA Backend API",
+    "image": "python.exe",
+    "started_at": "2026-11-23T18:52:53.751721",
+    "listen_pid": 20088,
+    "listen_image": "python.exe"
+  },
+  "external_b": {
+    "pid": 16520,
+    "port": 8010,
+    "title": "External Antifraud B",
+    "image": "python.exe",
+    "started_at": "2026-11-23T18:52:55.890970",
+    "listen_pid": 1572,
+    "listen_image": "python.exe"
+  },
+  "frontend": {
+    "pid": 20456,
+    "port": 5173,
+    "title": "VIGILIA Frontend UI",
+    "image": "cmd.exe",
+    "started_at": "2026-11-23T18:53:00.056255",
+    "listen_pid": 20004,
+    "listen_image": "node.exe"
+  }
+}
