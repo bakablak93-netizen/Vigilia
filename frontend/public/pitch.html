@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VIGILIA — Банктік антифрод стресс-тестілеу полигоны</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --line: rgba(255, 255, 255, 0.14);
+      --emerald: #34D399;
+      --emerald-solid: #10B981;
+      --coral: #FB7185;
+      --text: #FFFFFF;
+      --text-secondary: #E2E8F0;
+      --text-muted: #94A3B8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at 65% 45%, #1E293B 0%, #131B26 55%, #0D131C 100%);
+      color: var(--text);
+      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    #webgl-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Minimal Top Header */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      padding: 28px 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .wordmark {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    /* Slides */
+    .slides-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      padding: 84px 56px 76px;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+    }
+
+    .slide.mirror {
+      justify-content: flex-end;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .col-side {
+      width: 100%;
+      max-width: min(530px, 44vw);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .col-full {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .hero-title {
+      font-size: clamp(60px, 7vw, 104px);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 0.94;
+      color: var(--text);
+    }
+
+    .slide-title {
+      font-size: clamp(30px, 3.2vw, 46px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.14;
+      color: var(--text);
+    }
+
+    .lead {
+      font-size: clamp(16px, 1.3vw, 20px);
+      font-weight: 500;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    .body-copy {
+      font-size: 15.5px;
+      line-height: 1.62;
+      color: var(--text-secondary);
+    }
+
+    /* Slide 2: Horizontal 3-column timeline */
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--line);
+      padding-top: 32px;
+      gap: 36px;
+    }
+
+    .timeline-col {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding-right: 16px;
+      border-right: 1px solid var(--line);
+    }
+
+    .timeline-col:last-child {
+      border-right: none;
+      padding-right: 0;
+    }
+
+    .stage-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .timeline-col.accent .stage-label {
+      color: var(--emerald);
+    }
+
+    .timeline-col h3 {
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.015em;
+      color: var(--text);
+    }
+
+    .timeline-col p {
+      font-size: 14.5px;
+      line-height: 1.62;
+      color: var(--text-secondary);
+    }
+
+    /* Slide 3: Clean divided list */
+    .divided-list {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--line);
+    }
+
+    .divided-item {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .divided-item h3 {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .divided-item p {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+    }
+
+    /* Slide 4: 2x2 thin-line matrix */
+    .matrix-2x2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+
+    .matrix-cell {
+      padding: 22px 24px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .matrix-cell h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .matrix-cell p {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+    }
+
+    /* Slide 5: Architectural Flow 01 -> 02 -> 03 */
+    .flow-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: start;
+      gap: 20px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .flow-step {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .flow-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--emerald);
+    }
+
+    .flow-step h3 {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--text);
+    }
+
+    .flow-step p {
+      font-size: 14.5px;
+      line-height: 1.62;
+      color: var(--text-secondary);
+    }
+
+    .flow-arrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      color: var(--text-muted);
+      padding-top: 28px;
+    }
+
+    /* Slide 6: Split top header + bottom 2-column comparison */
+    .slide-6-wrap {
+      width: 100%;
+      height: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 8px 0;
+    }
+
+    .slide-6-head {
+      max-width: 620px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .compare-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+    }
+
+    .compare-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .compare-col h3 {
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--text);
+    }
+
+    .compare-col.emerald-accent h3 {
+      color: var(--emerald);
+    }
+
+    .compare-col p {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    /* Slide 7: Experiment #258 table */
+    .metrics-table {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--line);
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      gap: 16px;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .metric-name {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .metric-note {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .metric-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--coral);
+    }
+
+    .metric-val.ok {
+      color: var(--emerald);
+    }
+
+    /* Slide 8: Large borderless metrics + 2 blocks */
+    .big-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .big-metric {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .big-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--emerald);
+      line-height: 1;
+    }
+
+    .big-lbl {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    .artifacts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+
+    .artifact-block {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .artifact-block h3 {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .artifact-block p {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    /* Slide 9 CTA */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      width: fit-content;
+      padding: 15px 28px;
+      border-radius: 8px;
+      background: var(--emerald);
+      color: #04130D;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      transition: background 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .cta-btn:hover {
+      background: #6EE7B7;
+      transform: translateY(-1px);
+    }
+
+    /* Edge Click Zones */
+    .edge-zone {
+      position: fixed;
+      top: 64px;
+      bottom: 64px;
+      width: 9vw;
+      z-index: 15;
+      cursor: pointer;
+    }
+    .edge-zone.left { left: 0; }
+    .edge-zone.right { right: 0; }
+
+    /* Minimal Bottom Bar: 2px progress line + 01 / 09 counter */
+    .bottom-hud {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      padding: 0 56px 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      pointer-events: none;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 11.111%;
+      background: var(--emerald);
+      transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .slide-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .slide-counter span {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    @media (max-width: 960px) {
+      .slide { padding: 76px 28px 64px; }
+      .top-bar { padding: 20px 28px; }
+      .bottom-hud { padding: 0 28px 18px; }
+      .col-side { max-width: 100%; }
+      .timeline-grid, .flow-grid, .compare-cols, .big-metrics, .artifacts-grid, .matrix-2x2 {
+        grid-template-columns: 1fr;
+      }
+      .flow-arrow { display: none; }
+      .timeline-col { border-right: none; border-bottom: 1px solid var(--line); padding-bottom: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="webgl-canvas"></canvas>
+
+  <header class="top-bar">
+    <div class="wordmark">VIGILIA</div>
+  </header>
+
+  <div class="edge-zone left" id="prev-zone" aria-label="Алдыңғы слайд"></div>
+  <div class="edge-zone right" id="next-zone" aria-label="Келесі слайд"></div>
+
+  <main class="slides-layer">
+    <!-- SLIDE 1 (Hero 3D Right) -->
+    <section class="slide active" data-slide="0">
+      <div class="col-side">
+        <h1 class="hero-title">VIGILIA</h1>
+        <p class="lead">
+          Банктік антифрод жүйелерін production ортасына шығармай тұрып стресс-тестілеу және ережелерді автоматты түрде күшейту полигоны.
+        </p>
+        <p class="body-copy">
+          Біз алаяқтардың жаңа схемаларын нақты клиенттерге зиян келмей тұрып оқшауланған синтетикалық ортада модельдейміз.
+        </p>
+      </div>
+    </section>
+
+    <!-- SLIDE 2 (Ambient Horizon Decor — Horizontal 3-column timeline) -->
+    <section class="slide" data-slide="1">
+      <div class="col-full">
+        <div style="max-width: 720px; display: flex; flex-direction: column; gap: 14px;">
+          <h2 class="slide-title">Реактивті қорғаныстан проактивті краш-тестке</h2>
+          <p class="body-copy">
+            Банктік антифрод жұмысын талдай келе, біз жүйелі алшақтықты көрдік: қорғаныс әрқашан шабуылдан кейін жаңарады.
+          </p>
+        </div>
+        <div class="timeline-grid">
+          <div class="timeline-col">
+            <span class="stage-label">Кезең I — Инциденттен кейінгі реакция</span>
+            <h3>Қорғаныс кешігіп жаңарады</h3>
+            <p>
+              Жаңа ережелер мен ML-белгілер алаяқтық дерегі тіркеліп, банк алғашқы қаржылық шығынға ұшырағаннан кейін ғана жазылады.
+            </p>
+          </div>
+          <div class="timeline-col">
+            <span class="stage-label">Кезең II — Production ортасындағы шектеу</span>
+            <h3>Нақты трафикте тексеру қауіпті</h3>
+            <p>
+              Жаңа антифрод гипотезасын тікелей клиенттік трафикте сынау мүмкін емес — қате шек адал клиенттердің төлемдерін бұғаттайды.
+            </p>
+          </div>
+          <div class="timeline-col accent">
+            <span class="stage-label">Кезең III — VIGILIA краш-тест полигоны</span>
+            <h3>Оқшауланған сынақ зертханасы</h3>
+            <p>
+              Авиациядағы аэродинамикалық құбыр сияқты, біз антифродты нақты іске қоспас бұрын мутацияланған шабуылдармен сынайтын оқшауланған зертхана құрдық.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3 (3D LEFT, Text RIGHT) -->
+    <section class="slide mirror" data-slide="2">
+      <div class="col-side">
+        <h2 class="slide-title">Неге классикалық антифрод жеткіліксіз?</h2>
+        <div class="divided-list">
+          <div class="divided-item">
+            <h3>Concept Drift және жасырын схемалар</h3>
+            <p>
+              Алаяқтар ірі аударымдарды ұсақ бөліктерге бөледі (Smurfing) және аккаунтты біртіндеп басып алады (ATO). Ескі ML-модельдер мұндай мінез-құлықты қалыпты трафик деп қабылдайды.
+            </p>
+          </div>
+          <div class="divided-item">
+            <h3>Шығын мен клиент лояльдігінің теңгерімі</h3>
+            <p>
+              Сүзгілерді тым қатайту False Positive көрсеткішін өсіріп, клиенттердің наразылығын тудырады, ал жұмсарту — тікелей қаржылық шығынға әкеледі.
+            </p>
+          </div>
+          <div class="divided-item">
+            <h3>Дербес деректер (ПДн) қауіпсіздігі</h3>
+            <p>
+              Комплаенс пен заң талаптары нақты клиент базасында шабуыл сценарийлерін жүргізуге тыйым салады, сондықтан банкке синтетикалық сынақ ортасы қажет.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4 (3D Right) -->
+    <section class="slide" data-slide="3">
+      <div class="col-side">
+        <h2 class="slide-title">VIGILIA — Red Team және Blue Team бір контурда</h2>
+        <p class="body-copy">
+          Бұл тек мониторинг емес, банктің қолданыстағы антифродын үздіксіз тексеретін және өздігінен бейімдейтін автономды полигон.
+        </p>
+        <div class="matrix-2x2">
+          <div class="matrix-cell">
+            <h3>100% синтетикалық трафик</h3>
+            <p>Нақты клиенттердің бірде-бір дерегін қолданбай, банктік транзакциялардың шынайы статистикалық профилін генерациялайды.</p>
+          </div>
+          <div class="matrix-cell">
+            <h3>Соқыр аймақтарды дәл табу</h3>
+            <p>Қай шабуыл векторы қазіргі ережелер мен ML-модельдерден өтіп кететінін автоматты түрде анықтайды.</p>
+          </div>
+          <div class="matrix-cell">
+            <h3>Ережелердің авто-эволюциясы</h3>
+            <p>Табылған осалдықтарды жабу үшін жаңа ережелер мен оңтайлы шектерді ұсынып, оларды бірден қайта тексереді.</p>
+          </div>
+          <div class="matrix-cell">
+            <h3>Тәуекелді теңгемен бағалау</h3>
+            <p>Әрбір жабылмаған осалдықтың банкке әкелетін ықтимал шығынын нақты <span class="mono">₸</span> сомасымен есептеп береді.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5 (Ambient Elliptical Orbits — Architectural flow 01 -> 02 -> 03) -->
+    <section class="slide" data-slide="4">
+      <div class="col-full">
+        <div style="max-width: 720px; display: flex; flex-direction: column; gap: 14px;">
+          <h2 class="slide-title">Антифродты күшейтудің тұйық циклі</h2>
+          <p class="body-copy">
+            Бір реттік аудиттің орнына VIGILIA қорғанысты үш қадамдық үздіксіз цикл арқылы шыңдайды.
+          </p>
+        </div>
+        <div class="flow-grid">
+          <div class="flow-step">
+            <span class="flow-num">01</span>
+            <h3>Шабуылдар генерациясы</h3>
+            <p>
+              Синтезатор қалыпты төлемдермен араласқан күрделі шабуыл толқындарын құрады: Smurfing тізбектері, түнгі ауытқулар, жаңа алушыларға аударымдар және ATO.
+            </p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <span class="flow-num">02</span>
+            <h3>Аудит және қаржылық бағалау</h3>
+            <p>
+              Транзакциялар банктің антифродынан өткізіледі. Жүйе өткізіліп кеткен фрод үлесін, False Positive деңгейін және банк жоғалтатын <span class="mono">₸</span> көлемін тіркейді.
+            </p>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <span class="flow-num">03</span>
+            <h3>Эволюция + Adversarial Shift</h3>
+            <p>
+              Қозғалтқыш жаңа қорғаныс ережелерін іріктейді және оларды <span class="mono">±15%</span> ығысқан мутацияланған шабуылдарда сынайды — ереже тек бір шаблонды жаттап алмауы үшін.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6 (3D Center) -->
+    <section class="slide" data-slide="5">
+      <div class="slide-6-wrap">
+        <div class="slide-6-head">
+          <h2 class="slide-title">Кез келген банк архитектурасына икемделу</h2>
+          <p class="body-copy">
+            Банктің ағымдағы антифрод жүйесін қайта жазудың қажеті жоқ — VIGILIA екі режимде де жұмыс істейді.
+          </p>
+        </div>
+        <div class="compare-cols">
+          <div class="compare-col">
+            <h3>External API (Black-Box ML)</h3>
+            <p>
+              Банктің сыртқы ML-моделіне HTTP API арқылы қосылады. Модельдің ішкі кодына кірмей-ақ оның соқыр аймақтары мен Concept Drift құбылысын анықтайды.
+            </p>
+          </div>
+          <div class="compare-col emerald-accent">
+            <h3>Internal Engine (White-Box Rules)</h3>
+            <p>
+              Ережелер логикасын іштей талдайды, әрбір шешімнің толық трассировкасын (Decision Trace) көрсетеді және жаңа ережелерді автоматты түрде генерациялайды.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7 (3D LEFT, Text RIGHT) -->
+    <section class="slide mirror" data-slide="6">
+      <div class="col-side">
+        <h2 class="slide-title">Experiment <span class="mono">#258</span>: ML-модель аудитінің нәтижесі</h2>
+        <p class="body-copy">
+          <span class="mono" style="color: var(--text);">1 000</span> синтетикалық транзакция <span class="mono" style="color: var(--text);">123,4 мс</span> ішінде тексерілді. Дәстүрлі модель ірі фродты ұстағанымен, <span class="mono" style="color: var(--coral);">16,8 млн ₸</span> көлеміндегі жасырын шабуылдарды өткізіп алды:
+        </p>
+        <div class="metrics-table">
+          <div class="metric-row">
+            <div>
+              <div class="metric-name">Классикалық ірі фрод</div>
+              <div class="metric-note">стандартты шектер оңай ұстайды</div>
+            </div>
+            <div class="metric-val ok">99,9%</div>
+          </div>
+          <div class="metric-row">
+            <div>
+              <div class="metric-name">Аномалды сома</div>
+              <div class="metric-note">көп бөлігі сүзгіден өтіп кетеді</div>
+            </div>
+            <div class="metric-val">15,4%</div>
+          </div>
+          <div class="metric-row">
+            <div>
+              <div class="metric-name">Жаңа алушыға төлем</div>
+              <div class="metric-note">мінез-құлық контексті ескерілмеген</div>
+            </div>
+            <div class="metric-val">15,4%</div>
+          </div>
+          <div class="metric-row">
+            <div>
+              <div class="metric-name">Velocity шабуылдары</div>
+              <div class="metric-note">қысқа уақыттағы сериялық төлемдер</div>
+            </div>
+            <div class="metric-val">8,3%</div>
+          </div>
+          <div class="metric-row">
+            <div>
+              <div class="metric-name">Smurfing және ATO</div>
+              <div class="metric-note">толық соқыр аймақ — VIGILIA дәл осы тесіктерді жабады</div>
+            </div>
+            <div class="metric-val">0,0%</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8 (Ambient Isometric Telemetry Matrix — Integration Matrix) -->
+    <section class="slide" data-slide="7">
+      <div class="col-full">
+        <div style="max-width: 740px; display: flex; flex-direction: column; gap: 14px;">
+          <h2 class="slide-title">Банк контурына 1 күнде қауіпсіз енгізу</h2>
+          <p class="body-copy">
+            VIGILIA банктің негізгі процессингіне жүктеме түсірмейді және ақпараттық қауіпсіздік талаптарына толық сай келеді.
+          </p>
+        </div>
+
+        <div class="big-metrics">
+          <div class="big-metric">
+            <div class="big-num">0%</div>
+            <div class="big-lbl">нақты ПДн тәуекелі</div>
+          </div>
+          <div class="big-metric">
+            <div class="big-num">1 күн</div>
+            <div class="big-lbl">REST API + Docker интеграциясы</div>
+          </div>
+          <div class="big-metric">
+            <div class="big-num">±15%</div>
+            <div class="big-lbl">Adversarial Shift тұрақтылық тесті</div>
+          </div>
+        </div>
+
+        <div class="artifacts-grid">
+          <div class="artifact-block">
+            <h3>Тәуекел-менеджерлерге арналған Live Attack симуляторы</h3>
+            <p>
+              Аналитиктер жаңа алаяқтық сценарийін қолмен құрастырып, қорғаныстың реакциясын нақты уақытта тексере алады.
+            </p>
+          </div>
+          <div class="artifact-block">
+            <h3>Риск-комитетке дайын есептер (HTML / CSV / JSON)</h3>
+            <p>
+              Әрбір сынақтан кейін басшылық пен аудиторларға арналған дайын аналитикалық құжат қалыптасады.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9 (3D Right) -->
+    <section class="slide" data-slide="8">
+      <div class="col-side">
+        <h1 class="hero-title">VIGILIA</h1>
+        <p class="lead">
+          Алаяқтар жаңа схеманы іске қоспай тұрып, банктің қорғанысын алдын ала шыңдаймыз.
+        </p>
+        <p class="body-copy">
+          Қазір тікелей стендте сыртқы ML-модельдің осалдықтарын тауып, қорғанысты нақты уақытта күшейтіп көрсетеміз.
+        </p>
+        <a href="/" class="cta-btn" id="demo-link">
+          <span>Live Demo ашу</span>
+          <span>→</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bottom-hud">
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="slide-counter"><span id="cur-num">01</span> / 09</div>
+  </footer>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    const TOTAL_SLIDES = 9;
+    let currentSlide = 0;
+
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const curNumEl = document.getElementById('cur-num');
+    const progressFill = document.getElementById('progress-fill');
+    const canvas = document.getElementById('webgl-canvas');
+
+    // =========================================================
+    // 70,000 CONTINUOUS GPU MICRO-PARTICLES (9 STATES + GLITCH)
+    // =========================================================
+    const PARTICLE_COUNT = 70000;
+    const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
+
+    const C_SILVER      = new THREE.Color(0xE2E8F0);
+    const C_STEEL       = new THREE.Color(0x94A3B8);
+    const C_DARK        = new THREE.Color(0x0B1018);
+    const C_DARK_EMERALD= new THREE.Color(0x065F46);
+    const C_EMERALD     = new THREE.Color(0x10B981);
+    const C_MINT        = new THREE.Color(0x34D399);
+    const C_MINT_HI     = new THREE.Color(0x6EE7B7);
+    const C_WHITE       = new THREE.Color(0xF8FAFC);
+    const C_CORAL       = new THREE.Color(0xF43F5E);
+    const C_CORAL_HI    = new THREE.Color(0xFDA4AF);
+
+    let seed = 4242;
+    function rand() {
+      seed = (seed * 1664525 + 1013904223) >>> 0;
+      return seed / 4294967296;
+    }
+
+    function makeShapeBuffer() {
+      return {
+        pos: new Float32Array(PARTICLE_COUNT * 3),
+        col: new Float32Array(PARTICLE_COUNT * 3),
+        spin: new Float32Array(PARTICLE_COUNT * 4), // axisX, axisY, axisZ, speed
+        props: new Float32Array(PARTICLE_COUNT * 4), // size, alpha, phase, pulseSpeed
+        meta: new Float32Array(PARTICLE_COUNT * 4)   // pivotX, pivotY, noiseAmp, unused
+      };
+    }
+
+    function setP(b, i, x, y, z, col, size, alpha, px, py, ax, ay, az, spinSpeed, phase = 0, pulseSpeed = 0, noiseAmp = 0.03) {
+      const i3 = i * 3;
+      const i4 = i * 4;
+      b.pos[i3] = x;
+      b.pos[i3 + 1] = y;
+      b.pos[i3 + 2] = z;
+      b.col[i3] = col.r;
+      b.col[i3 + 1] = col.g;
+      b.col[i3 + 2] = col.b;
+      b.spin[i4] = ax;
+      b.spin[i4 + 1] = ay;
+      b.spin[i4 + 2] = az;
+      b.spin[i4 + 3] = spinSpeed;
+      b.props[i4] = size;
+      b.props[i4 + 1] = alpha;
+      b.props[i4 + 2] = phase;
+      b.props[i4 + 3] = pulseSpeed;
+      b.meta[i4] = px;
+      b.meta[i4 + 1] = py;
+      b.meta[i4 + 2] = noiseAmp;
+      b.meta[i4 + 3] = 0.0;
+    }
+
+    function normalizedAxis(x, y, z) {
+      const l = Math.hypot(x, y, z) || 1;
+      return [x / l, y / l, z / l];
+    }
+
+    // ---------------------------------------------------------
+    // STATE 0 & STATE 8 (Slides 01 & 09, RIGHT): 3D VIGILIA Eye Emblem
+    // ---------------------------------------------------------
+    function buildVigiliaEye(stabilized) {
+      const b = makeShapeBuffer();
+      const cx = 2.48;
+      let idx = 0;
+
+      // Helper to sample a 3D polyline segment with thickness
+      function addPolyline(pts, totalPts, halfThick, colA, colB, pulseSpd, size) {
+        const segs = pts.length - 1;
+        for (let i = 0; i < totalPts; i++) {
+          const s = i % segs;
+          const t = rand();
+          const p0 = pts[s];
+          const p1 = pts[s + 1];
+          const x = p0[0] + (p1[0] - p0[0]) * t + (rand() - 0.5) * halfThick * 2;
+          const y = p0[1] + (p1[1] - p0[1]) * t + (rand() - 0.5) * halfThick * 2;
+          const z = p0[2] + (p1[2] - p0[2]) * t + (rand() - 0.5) * halfThick;
+          const prog = (s + t) / segs;
+          setP(b, idx++, cx + x, y, z, i % 3 === 0 ? colB : colA, size, 0.96, cx, 0, 0, 1, 0, 0.0, prog, pulseSpd, 0.01);
+        }
+      }
+
+      // Helper to sample a small square pixel block / node
+      function addSquareBlock(x0, y0, z0, sizeXY, count, col) {
+        for (let i = 0; i < count; i++) {
+          const x = x0 + (rand() - 0.5) * sizeXY;
+          const y = y0 + (rand() - 0.5) * sizeXY;
+          const z = z0 + (rand() - 0.5) * 0.04;
+          setP(b, idx++, cx + x, y, z, col, 2.0, 0.98, cx, 0, 0, 1, 0, 0.0, rand(), stabilized ? 2.4 : 3.2, 0.01);
+        }
+      }
+
+      // 1) Almond Eyelid Contours (x in [-1.55, +1.55], y in [-0.78, +0.78]) — 18,000 pts
+      // Upper thickened brow (10,500 pts)
+      for (let i = 0; i < 10500; i++) {
+        const u = rand() * 2 - 1; // -1 .. +1
+        const arch = Math.pow(Math.max(0, Math.cos(u * Math.PI * 0.5)), 0.92);
+        const thick = (0.065 + 0.085 * arch) * (rand() - 0.5) * 2;
+        const x = u * 1.55;
+        const y = 0.78 * arch + thick * 0.7;
+        const z = 0.22 * (1 - u * u) - 0.04 + (rand() - 0.5) * 0.06;
+        const col = thick > 0.03 ? C_DARK_EMERALD : (i % 3 === 0 ? C_MINT : C_EMERALD);
+        setP(b, idx++, cx + x, y, z, col, 1.85, 0.96, cx, 0, 0, 1, 0, 0.0, (u + 1) * 0.5, stabilized ? 1.8 : 2.8, 0.01);
+      }
+
+      // Lower eyelid contour (7,500 pts)
+      for (let i = 0; i < 7500; i++) {
+        const u = rand() * 2 - 1;
+        const arch = Math.pow(Math.max(0, Math.cos(u * Math.PI * 0.5)), 1.05);
+        const thick = (0.045 + 0.045 * arch) * (rand() - 0.5) * 2;
+        const x = u * 1.55;
+        const y = -0.68 * arch + thick * 0.7;
+        const z = 0.18 * (1 - u * u) - 0.04 + (rand() - 0.5) * 0.05;
+        const col = thick < -0.02 ? C_DARK_EMERALD : (i % 3 === 0 ? C_MINT : C_EMERALD);
+        setP(b, idx++, cx + x, y, z, col, 1.75, 0.95, cx, 0, 0, 1, 0, 0.0, (u + 1) * 0.5, stabilized ? 1.8 : 2.8, 0.01);
+      }
+
+      // 2) Volumetric Iris Ring (R = 0.56) + Dark Emerald Inner Iris — 18,000 pts
+      for (let i = 0; i < 12000; i++) {
+        const ang = rand() * Math.PI * 2;
+        const tv = rand() * Math.PI * 2;
+        const tr = 0.095 * Math.sqrt(rand());
+        const r = 0.56 + tr * Math.cos(tv);
+        const x = Math.cos(ang) * r;
+        const y = Math.sin(ang) * r;
+        const z = 0.28 + tr * Math.sin(tv) * 0.8;
+        const col = i % 4 === 0 ? (stabilized ? C_MINT_HI : C_MINT) : C_EMERALD;
+        setP(b, idx++, cx + x, y, z, col, 1.9, 0.98, cx, 0, 0, 1, 0, 0.0, ang / (Math.PI * 2), 2.5, 0.008);
+      }
+      for (let i = 0; i < 6000; i++) {
+        const ang = rand() * Math.PI * 2;
+        const r = 0.18 + 0.30 * Math.sqrt(rand());
+        const x = Math.cos(ang) * r;
+        const y = Math.sin(ang) * r;
+        const z = 0.22 + 0.08 * (1 - r / 0.52);
+        setP(b, idx++, cx + x, y, z, C_DARK_EMERALD, 1.7, 0.88, cx, 0, 0, 1, 0, 0.0, ang / (Math.PI * 2), 1.5, 0.01);
+      }
+
+      // 3) Bright White / Light-Emerald 4-Pointed Star Pupil Flare — 9,000 pts
+      for (let i = 0; i < 9000; i++) {
+        let sx, sy;
+        // Astroid / 4-pointed star rejection sampling + sharp axis rays
+        if (i < 3600) {
+          // Horizontal & vertical crisp star rays
+          const isX = i % 2 === 0;
+          const t = (rand() * 2 - 1) * 0.44;
+          const w = 0.045 * (1 - Math.abs(t) / 0.48);
+          sx = isX ? t : (rand() - 0.5) * w * 2;
+          sy = isX ? (rand() - 0.5) * w * 2 : t;
+        } else {
+          // Curved 4-pointed astroid core
+          const ang = rand() * Math.PI * 2;
+          const radial = Math.pow(rand(), 0.7) * 0.32;
+          const starMod = Math.pow(Math.abs(Math.cos(ang * 2)), 0.75) * 0.68 + 0.32;
+          sx = Math.cos(ang) * radial * starMod;
+          sy = Math.sin(ang) * radial * starMod;
+        }
+        const z = 0.36 + 0.06 * (1 - Math.hypot(sx, sy) / 0.45);
+        const col = Math.hypot(sx, sy) < 0.16 || stabilized ? C_WHITE : C_MINT_HI;
+        setP(b, idx++, cx + sx, sy, z, col, stabilized ? 2.25 : 2.05, 1.0, cx, 0, 0, 1, 0, 0.0, rand(), 3.0, 0.008);
+      }
+
+      // 4) Diagonal Orbital Arc (~35 deg, top-right around eye down to bottom-left behind Z plane) — 14,000 pts
+      const arcCurve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(1.62, 1.08, 0.08),
+        new THREE.Vector3(0.65, 0.85, -0.32),
+        new THREE.Vector3(-0.35, -0.25, -0.44),
+        new THREE.Vector3(-1.15, -0.92, -0.22),
+        new THREE.Vector3(-1.68, -1.06, 0.12)
+      ]);
+      const pArc = new THREE.Vector3();
+      for (let i = 0; i < 14000; i++) {
+        const t = rand();
+        arcCurve.getPoint(t, pArc);
+        const ribbonW = 0.14 * Math.sin(t * Math.PI * 0.88 + 0.18);
+        const off = (rand() - 0.5) * ribbonW;
+        const col = i % 5 === 0 ? C_SILVER : (t > 0.25 && t < 0.75 ? C_EMERALD : C_MINT);
+        setP(
+          b,
+          idx++,
+          cx + pArc.x + off * 0.6,
+          pArc.y - off * 0.8,
+          pArc.z + (rand() - 0.5) * 0.06,
+          col,
+          1.75,
+          0.92,
+          cx,
+          0,
+          0,
+          1,
+          0,
+          0.0,
+          t,
+          2.6,
+          0.014
+        );
+      }
+
+      // 5) Circuit Traces & Floating Pixel Square Nodes on Left & Right — remaining ~11,000 pts
+      // Left corner trace (steps left, then up-left) + node + 2 floating pixel squares top-left
+      addPolyline([[-1.55, 0.0, -0.02], [-1.84, 0.0, -0.02], [-2.02, 0.20, -0.02], [-2.18, 0.20, -0.02]], 2200, 0.018, C_MINT, C_EMERALD, 3.0, 1.75);
+      addSquareBlock(-2.22, 0.20, -0.02, 0.11, 700, C_MINT_HI);
+      addSquareBlock(-1.90, 0.54, 0.04, 0.12, 750, C_MINT);
+      addSquareBlock(-1.60, 0.72, 0.06, 0.09, 550, C_SILVER);
+
+      // Right corner traces (2 diverging stepped traces) + nodes + 2 floating pixel squares bottom-right
+      addPolyline([[1.55, 0.05, -0.02], [1.82, 0.05, -0.02], [2.00, 0.27, -0.02], [2.16, 0.27, -0.02]], 2100, 0.018, C_MINT, C_EMERALD, 3.0, 1.75);
+      addSquareBlock(2.20, 0.27, -0.02, 0.11, 650, C_MINT_HI);
+
+      addPolyline([[1.55, -0.05, -0.02], [1.84, -0.05, -0.02], [2.02, -0.27, -0.02], [2.18, -0.27, -0.02]], 2100, 0.018, C_MINT, C_EMERALD, 3.0, 1.75);
+      addSquareBlock(2.22, -0.27, -0.02, 0.11, 650, C_MINT_HI);
+
+      addSquareBlock(1.76, -0.58, 0.05, 0.12, 750, C_MINT);
+      addSquareBlock(2.04, -0.44, 0.04, 0.09, 550, C_SILVER);
+
+      while (idx < PARTICLE_COUNT) {
+        // Fill any rounding remainder neatly onto the iris center star
+        setP(b, idx++, cx + (rand() - 0.5) * 0.08, (rand() - 0.5) * 0.08, 0.36, C_WHITE, 2.0, 0.98, cx, 0, 0, 1, 0, 0.0, rand(), 2.5, 0.008);
+      }
+      return b;
+    }
+
+    function buildEyeFromImage(img, stabilized) {
+      const b = makeShapeBuffer();
+      const cx = 2.48;
+      const sw = 192;
+      const sh = 108;
+      const off = document.createElement('canvas');
+      off.width = sw;
+      off.height = sh;
+      const ctx = off.getContext('2d', { willReadFrequently: true });
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(img, 0, 0, sw, sh);
+      const data = ctx.getImageData(0, 0, sw, sh).data;
+
+      const pixels = [];
+      const widthWorld = 4.28;
+      const heightWorld = widthWorld * (img.height / img.width);
+      const pxW = widthWorld / sw;
+      const pxH = heightWorld / sh;
+
+      for (let py = 0; py < sh; py++) {
+        for (let px = 0; px < sw; px++) {
+          const p4 = (py * sw + px) * 4;
+          const a = data[p4 + 3];
+          if (a < 28) continue;
+
+          const r = data[p4];
+          const g = data[p4 + 1];
+          const bl = data[p4 + 2];
+
+          const nx = (px / sw - 0.5) * 2;
+          const ny = -(py / sh - 0.5) * 2;
+          const x = nx * (widthWorld * 0.5);
+          const y = ny * (heightWorld * 0.5);
+
+          const dCenter = Math.hypot(nx * 1.77, ny);
+          const isDarkOutline = (r < 34 && g < 48 && bl < 38);
+          const isStarCore = (dCenter < 0.24 && r > 180 && g > 220 && bl > 180);
+
+          let z = 0.0;
+          if (Math.abs(nx) > 0.56) {
+            // Left/right circuit traces & hollow pixel squares
+            z = 0.05;
+          } else if (ny > 0.44 || ny < -0.42) {
+            // Orbital arc passing behind the eye plane
+            z = -0.35;
+          } else if (dCenter < 0.36) {
+            // Iris and bright 4-pointed star flare protrude forward
+            z = isStarCore ? 0.32 : 0.22;
+          } else {
+            // Almond eyelid & brow with smooth 3D convexity
+            const u = nx / 0.56;
+            z = 0.14 * Math.max(0, 1 - u * u);
+          }
+
+          const col = isDarkOutline
+            ? new THREE.Color(0x032B1D)
+            : new THREE.Color(r / 255, g / 255, bl / 255);
+
+          pixels.push({ x, y, z, col, isStarCore, isDarkOutline });
+        }
+      }
+
+      const totalPx = pixels.length || 1;
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const p = pixels[i % totalPx];
+        const jx = (rand() - 0.5) * pxW * 0.92;
+        const jy = (rand() - 0.5) * pxH * 0.92;
+        const jz = (rand() - 0.5) * 0.065;
+        const sz = p.isStarCore ? (stabilized ? 2.15 : 1.95) : (p.isDarkOutline ? 1.85 : 1.65);
+        const pulse = p.isStarCore ? 3.2 : (p.isDarkOutline ? 0.0 : 2.2);
+        setP(
+          b,
+          i,
+          cx + p.x + jx,
+          p.y + jy,
+          p.z + jz,
+          p.col,
+          sz,
+          p.isDarkOutline ? 0.95 : 0.98,
+          cx,
+          0,
+          0,
+          1,
+          0,
+          0.0,
+          (p.x + 2.2) / 4.4,
+          pulse,
+          0.008
+        );
+      }
+      return b;
+    }
+
+    function buildState01_RadarAperture() {
+      return buildVigiliaEye(false);
+    }
+
+    // ---------------------------------------------------------
+    // STATE 1 (Slide 02, AMBIENT DECOR): Topographic Data Horizon (Lower Band, alpha ~0.34)
+    // ---------------------------------------------------------
+    function buildState02_HorizonDecor() {
+      const b = makeShapeBuffer();
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        // Golden-ratio quasi-random fill across wide bottom horizon (zero moiré)
+        const u = ((i * 0.61803398875) % 1) * 2 - 1;
+        const v = (i / PARTICLE_COUNT) * 2 - 1;
+        const x = u * 5.2 + (rand() - 0.5) * 0.14;
+        const z = v * 2.4 + (rand() - 0.5) * 0.14;
+
+        const ridge =
+          Math.sin(x * 0.85 + z * 0.9) * 0.28 +
+          Math.cos(x * 1.45 - z * 1.2) * 0.18 +
+          Math.sin(x * 2.2) * 0.08;
+        const y = -2.25 + ridge;
+
+        const col = ridge > 0.18 ? C_MINT : (ridge > -0.05 ? C_EMERALD : C_STEEL);
+        const phase = (x + 5.2) / 10.4;
+        setP(b, i, x, y, z, col, 1.55, 0.34, 0, -2.25, 0, 1, 0, 0.0, phase, 1.6, 0.045);
+      }
+      return b;
+    }
+
+    // ---------------------------------------------------------
+    // STATE 2 (Slide 03, LEFT): Clean Sphere (R = 1.65) Shattering into Coral Clusters on Right Sector
+    // ---------------------------------------------------------
+    function buildState03_Breakthrough() {
+      const b = makeShapeBuffer();
+      const cx = -2.42;
+      const R = 1.65;
+
+      // 18 distinct coral cluster drift directions on the right/lower-right sector
+      const clusterCenters = [];
+      for (let k = 0; k < 18; k++) {
+        const ang = (k / 18) * Math.PI * 1.1 - 0.55;
+        const dist = 0.28 + rand() * 0.48;
+        clusterCenters.push([Math.cos(ang) * dist, Math.sin(ang) * dist * 0.75 - 0.12, (rand() - 0.5) * 0.55]);
+      }
+
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const yNorm = 1 - (i / (PARTICLE_COUNT - 1)) * 2;
+        const rSlice = Math.sqrt(Math.max(0, 1 - yNorm * yNorm));
+        const theta = i * GOLDEN_ANGLE;
+
+        let x = Math.cos(theta) * rSlice * R;
+        let y = yNorm * R;
+        let z = Math.sin(theta) * rSlice * R;
+
+        // Right sector fractures outward into coral-red clusters
+        const fractureZone = (x - 0.28) * 0.85 - (y - 0.35) * 0.35;
+        if (fractureZone > 0.0) {
+          const frac = Math.min(1.0, fractureZone / 1.35);
+          const cc = clusterCenters[i % clusterCenters.length];
+          const burst = (rand() - 0.5) * 0.12;
+          x += cc[0] * (0.35 + frac * 0.65) + burst;
+          y += cc[1] * (0.35 + frac * 0.65) + burst;
+          z += cc[2] * (0.35 + frac * 0.65) + burst;
+          const col = frac > 0.45 ? C_CORAL : C_CORAL_HI;
+          setP(b, i, cx + x, y, z, col, 1.9 + frac * 0.55, 0.96, cx, 0, 0, 1, 0, 0.0, frac, 3.2, 0.04);
+        } else {
+          // Intact left & upper sphere in clean silver-white
+          const col = i % 5 === 0 ? C_WHITE : (i % 3 === 0 ? C_STEEL : C_SILVER);
+          setP(b, i, cx + x, y, z, col, 1.72, 0.9, cx, 0, 0, 1, 0, 0.0, (yNorm + 1) * 0.5, 1.4, 0.014);
+        }
+      }
+      return b;
+    }
+
+    // ---------------------------------------------------------
+    // STATE 3 (Slide 04, RIGHT): Closed Interception Polygon "Red Team × Blue Team"
+    // ---------------------------------------------------------
+    function buildState04_Accelerator() {
+      const b = makeShapeBuffer();
+      const cx = 2.45;
+      let idx = 0;
+
+      // 1) Blue Team Defense Dome (R = 1.15) — 20,000 pts
+      const domeN = 20000;
+      const domeR = 1.15;
+      for (let i = 0; i < domeN; i++) {
+        const y = 1 - (i / (domeN - 1)) * 2;
+        const rSlice = Math.sqrt(Math.max(0, 1 - y * y));
+        const theta = i * GOLDEN_ANGLE;
+        const col = i % 4 === 0 ? C_MINT : C_EMERALD;
+        setP(
+          b,
+          idx++,
+          cx + Math.cos(theta) * rSlice * domeR,
+          y * domeR,
+          Math.sin(theta) * rSlice * domeR,
+          col,
+          1.7,
+          0.9,
+          cx,
+          0,
+          0,
+          1,
+          0,
+          0.14,
+          (y + 1) * 0.5,
+          1.8,
+          0.012
+        );
+      }
+
+      // 2) Bright Stabilized Inner Core (R = 0.36) — 6,000 pts
+      for (let i = 0; i < 6000; i++) {
+        const y = 1 - (i / 5999) * 2;
+        const rSlice = Math.sqrt(Math.max(0, 1 - y * y));
+        const theta = i * GOLDEN_ANGLE;
+        const r = 0.36 * (0.78 + rand() * 0.22);
+        setP(
+          b,
+          idx++,
+          cx + Math.cos(theta) * rSlice * r,
+          y * r,
+          Math.sin(theta) * rSlice * r,
+          i % 3 === 0 ? C_WHITE : C_MINT_HI,
+          2.05,
+          0.98,
+          cx,
+          0,
+          0,
+          1,
+          0,
+          0.14,
+          rand(),
+          2.4,
+          0.01
+        );
+      }
+
+      // 3) Outer Coral Red-Team Attack Emitter Ring (R = 1.95, tilted) — 14,000 pts
+      const ringEuler = new THREE.Euler(0.45, 0.12, -0.22);
+      const ringQ = new THREE.Quaternion().setFromEuler(ringEuler);
+      const ringPts = [];
+      const rayCount = 12;
+      for (let k = 0; k < rayCount; k++) {
+        const a = (k / rayCount) * Math.PI * 2;
+        const pOut = new THREE.Vector3(Math.cos(a) * 1.95, Math.sin(a) * 1.95, 0).applyQuaternion(ringQ);
+        // Add slight vertical elevation variety so attacks come around the dome
+        if (k % 3 === 1) pOut.y += 0.32;
+        if (k % 3 === 2) pOut.y -= 0.32;
+        pOut.normalize().multiplyScalar(1.95);
+        ringPts.push(pOut);
+      }
+
+      const v = new THREE.Vector3();
+      for (let i = 0; i < 14000; i++) {
+        const u = rand() * Math.PI * 2;
+        const tv = rand() * Math.PI * 2;
+        const tr = 0.065 * Math.sqrt(rand());
+        v.set(
+          (1.95 + tr * Math.cos(tv)) * Math.cos(u),
+          (1.95 + tr * Math.cos(tv)) * Math.sin(u),
+          tr * Math.sin(tv)
+        ).applyQuaternion(ringQ);
+        setP(b, idx++, cx + v.x, v.y, v.z, i % 4 === 0 ? C_CORAL_HI : C_CORAL, 1.85, 0.94, cx, 0, 0, 1, 0, 0.14, u / (Math.PI * 2), 2.8, 0.012);
+      }
+
+      // 4) 12 Attack Trajectories (From Outer Emitter to R = 1.15 Dome Barrier) — 18,000 pts
+      const impactPoints = [];
+      for (let k = 0; k < rayCount; k++) {
+        const pStart = ringPts[k];
+        const pEnd = pStart.clone().normalize().multiplyScalar(domeR); // stops right at barrier surface!
+        impactPoints.push(pEnd);
+        const mid = pStart.clone().lerp(pEnd, 0.5).add(new THREE.Vector3(0, (k % 2 === 0 ? 0.22 : -0.22), 0.15));
+        const curve = new THREE.QuadraticBezierCurve3(pStart, mid, pEnd);
+        const pTmp = new THREE.Vector3();
+
+        const raysPts = 1500;
+        for (let i = 0; i < raysPts; i++) {
+          const t = rand();
+          curve.getPoint(t, pTmp);
+          const spread = 0.025 * (1 - t * 0.4);
+          setP(
+            b,
+            idx++,
+            cx + pTmp.x + (rand() - 0.5) * spread,
+            pTmp.y + (rand() - 0.5) * spread,
+            pTmp.z + (rand() - 0.5) * spread,
+            t > 0.8 ? C_CORAL_HI : C_CORAL,
+            1.85,
+            0.96,
+            cx,
+            0,
+            0,
+            1,
+            0,
+            0.14,
+            t,
+            4.2,
+            0.01
+          );
+        }
+      }
+
+      // 5) Concentric Interception Ripple Points on the Barrier Surface — remaining 12,000 pts
+      const ripplesPerHit = Math.floor((PARTICLE_COUNT - idx) / rayCount);
+      impactPoints.forEach((hit) => {
+        const n = hit.clone().normalize();
+        const refUp = Math.abs(n.y) < 0.9 ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(1, 0, 0);
+        const tX = new THREE.Vector3().crossVectors(refUp, n).normalize();
+        const tY = new THREE.Vector3().crossVectors(n, tX).normalize();
+
+        for (let i = 0; i < ripplesPerHit; i++) {
+          const ringTier = i % 3;
+          const r = 0.06 + ringTier * 0.075 + (rand() - 0.5) * 0.015;
+          const a = rand() * Math.PI * 2;
+          const pSurf = hit.clone()
+            .addScaledVector(tX, Math.cos(a) * r)
+            .addScaledVector(tY, Math.sin(a) * r)
+            .normalize()
+            .multiplyScalar(domeR + 0.02);
+          const col = ringTier === 0 ? C_WHITE : (ringTier === 1 ? C_MINT_HI : C_CORAL_HI);
+          setP(b, idx++, cx + pSurf.x, pSurf.y, pSurf.z, col, ringTier === 0 ? 2.3 : 1.85, 0.98, cx, 0, 0, 1, 0, 0.14, ringTier / 3, 4.0, 0.008);
+        }
+      });
+
+      while (idx < PARTICLE_COUNT) {
+        setP(b, idx++, cx, 0, 0, C_WHITE, 2.0, 0.95, cx, 0, 0, 1, 0, 0.14, 0, 2.0, 0.008);
+      }
+      return b;
+    }
+
+    // ---------------------------------------------------------
+    // STATE 4 (Slide 05, AMBIENT DECOR): Three Wide Elliptical Orbits with Data Packets (alpha ~0.34)
+    // ---------------------------------------------------------
+    function buildState05_OrbitsDecor() {
+      const b = makeShapeBuffer();
+      const orbits = [
+        { rx: 4.5, ry: 1.15, tiltZ: 0.12, tiltX: 0.35, yOff: 0.1, speed: 1.8 },
+        { rx: 3.9, ry: 1.45, tiltZ: -0.18, tiltX: -0.25, yOff: -0.2, speed: 2.3 },
+        { rx: 4.8, ry: 0.85, tiltZ: 0.04, tiltX: 0.55, yOff: -0.45, speed: 1.5 }
+      ];
+      const q = new THREE.Quaternion();
+      const e = new THREE.Euler();
+      const v = new THREE.Vector3();
+
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const o = orbits[i % 3];
+        e.set(o.tiltX, 0, o.tiltZ);
+        q.setFromEuler(e);
+
+        const ang = rand() * Math.PI * 2;
+        const jitter = (rand() - 0.5) * 0.08;
+        v.set(Math.cos(ang) * (o.rx + jitter), Math.sin(ang) * (o.ry + jitter), (rand() - 0.5) * 0.06).applyQuaternion(q);
+        const col = i % 5 === 0 ? C_MINT : C_STEEL;
+        setP(b, i, v.x, v.y + o.yOff, v.z - 0.4, col, 1.6, 0.34, 0, 0, 0, 1, 0, 0.0, ang / (Math.PI * 2), o.speed, 0.03);
+      }
+      return b;
+    }
+
+    // ---------------------------------------------------------
+    // STATE 5 (Slide 06, CENTER): Two Identical 1.7x1.7x1.7 Cubes (Black-Box vs White-Box Octahedral Lattice)
+    // ---------------------------------------------------------
+    function buildState06_BlackVsWhite() {
+      const b = makeShapeBuffer();
+      const cy = 0.28;
+      const S = 1.7;
+      let idx = 0;
+
+      const edges = [
+        [[-1,-1,-1],[1,-1,-1]], [[-1,1,-1],[1,1,-1]], [[-1,-1,1],[1,-1,1]], [[-1,1,1],[1,1,1]],
+        [[-1,-1,-1],[-1,1,-1]], [[1,-1,-1],[1,1,-1]], [[-1,-1,1],[-1,1,1]], [[1,-1,1],[1,1,1]],
+        [[-1,-1,-1],[-1,-1,1]], [[1,-1,-1],[1,-1,1]], [[-1,1,-1],[-1,1,1]], [[1,1,-1],[1,1,1]]
+      ];
+
+      // LEFT (35,000 pts): Opaque dark graphite cube (1.7 x 1.7 x 1.7) + bright silver edges + emerald horizontal scan line
+      const lx = -1.75;
+
+      // 23,500 dense dark opaque fill
+      for (let i = 0; i < 23500; i++) {
+        const face = i % 6;
+        let u = (rand() - 0.5) * S;
+        let v = (rand() - 0.5) * S;
+        let w = (rand() - 0.5) * S;
+        const inset = rand() * 0.09;
+        if (face === 0) u = S / 2 - inset;
+        else if (face === 1) u = -S / 2 + inset;
+        else if (face === 2) v = S / 2 - inset;
+        else if (face === 3) v = -S / 2 + inset;
+        else if (face === 4) w = S / 2 - inset;
+        else w = -S / 2 + inset;
+        setP(b, idx++, lx + u, cy + v, w, C_DARK, 3.2, 0.97, lx, cy, 0, 1, 0, 0.22, 0, 0, 0.006);
+      }
+
+      // 7,500 bright silver cube edges
+      for (let i = 0; i < 7500; i++) {
+        const [p1, p2] = edges[i % 12];
+        const t = rand();
+        setP(
+          b,
+          idx++,
+          lx + (p1[0] + (p2[0] - p1[0]) * t) * (S / 2),
+          cy + (p1[1] + (p2[1] - p1[1]) * t) * (S / 2),
+          (p1[2] + (p2[2] - p1[2]) * t) * (S / 2),
+          C_SILVER,
+          1.95,
+          0.96,
+          lx,
+          cy,
+          0,
+          1,
+          0,
+          0.22,
+          t,
+          0,
+          0.006
+        );
+      }
+
+      // 4,000 bright emerald horizontal scanner line around all 4 vertical faces
+      for (let i = 0; i < 4000; i++) {
+        const side = i % 4;
+        const u = (rand() - 0.5) * S;
+        const v = (rand() - 0.5) * 0.06;
+        const half = S / 2 + 0.02;
+        let x, z;
+        if (side === 0)      { x = u; z = half; }
+        else if (side === 1) { x = u; z = -half; }
+        else if (side === 2) { x = half; z = u; }
+        else                 { x = -half; z = u; }
+        setP(b, idx++, lx + x, cy + v, z, C_MINT, 2.4, 1.0, lx, cy, 0, 1, 0, 0.22, (u + half) / S, 3.0, 0.008);
+      }
+
+      // RIGHT (35,000 pts): Transparent White-Box cube (1.7 x 1.7 x 1.7) + Symmetrical Emerald Octahedral Node Lattice
+      const rx = 1.75;
+
+      // 11,500 crisp cube frame edges
+      for (let i = 0; i < 11500; i++) {
+        const [p1, p2] = edges[i % 12];
+        const t = rand();
+        setP(
+          b,
+          idx++,
+          rx + (p1[0] + (p2[0] - p1[0]) * t) * (S / 2),
+          cy + (p1[1] + (p2[1] - p1[1]) * t) * (S / 2),
+          (p1[2] + (p2[2] - p1[2]) * t) * (S / 2),
+          C_SILVER,
+          1.85,
+          0.92,
+          rx,
+          cy,
+          0,
+          1,
+          0,
+          -0.22,
+          t,
+          0,
+          0.006
+        );
+      }
+
+      // Symmetrical octahedral lattice inside (6 octahedral vertices + center + 12 midpoints)
+      const octR = 0.62;
+      const octVerts = [
+        new THREE.Vector3(octR, 0, 0),
+        new THREE.Vector3(-octR, 0, 0),
+        new THREE.Vector3(0, octR, 0),
+        new THREE.Vector3(0, -octR, 0),
+        new THREE.Vector3(0, 0, octR),
+        new THREE.Vector3(0, 0, -octR),
+        new THREE.Vector3(0, 0, 0)
+      ];
+      const octLinks = [
+        [2, 0], [2, 1], [2, 4], [2, 5],
+        [3, 0], [3, 1], [3, 4], [3, 5],
+        [0, 4], [4, 1], [1, 5], [5, 0],
+        [6, 0], [6, 1], [6, 2], [6, 3], [6, 4], [6, 5]
+      ];
+
+      // 16,500 pts along octahedral lattice struts
+      for (let i = 0; i < 16500; i++) {
+        const [a, c] = octLinks[i % octLinks.length];
+        const vA = octVerts[a];
+        const vB = octVerts[c];
+        const t = rand();
+        setP(
+          b,
+          idx++,
+          rx + vA.x + (vB.x - vA.x) * t + (rand() - 0.5) * 0.012,
+          cy + vA.y + (vB.y - vA.y) * t + (rand() - 0.5) * 0.012,
+          vA.z + (vB.z - vA.z) * t + (rand() - 0.5) * 0.012,
+          i % 4 === 0 ? C_WHITE : C_EMERALD,
+          1.85,
+          0.94,
+          rx,
+          cy,
+          0,
+          1,
+          0,
+          -0.22,
+          t,
+          2.6,
+          0.008
+        );
+      }
+
+      // 7,000 pts clustered at the 7 octahedral symmetry nodes
+      while (idx < PARTICLE_COUNT) {
+        const n = octVerts[idx % octVerts.length];
+        const nr = (n.length() < 0.05 ? 0.13 : 0.09) * Math.cbrt(rand());
+        const th = rand() * Math.PI * 2;
+        const ph = Math.acos(2 * rand() - 1);
+        setP(
+          b,
+          idx++,
+          rx + n.x + nr * Math.sin(ph) * Math.cos(th),
+          cy + n.y + nr * Math.cos(ph),
+          n.z + nr * Math.sin(ph) * Math.sin(th),
+          n.length() < 0.05 ? C_WHITE : C_MINT,
+          2.45,
+          0.98,
+          rx,
+          cy,
+          0,
+          1,
+          0,
+          -0.22,
+          rand(),
+          2.8,
+          0.01
+        );
+      }
+      return b;
+    }
+
+    // ---------------------------------------------------------
+    // STATE 6 (Slide 07, LEFT, x = -2.15): 5 Crisp Vertical Rectangular Columns
+    // ---------------------------------------------------------
+    function buildState07_TelegramBars() {
+      const b = makeShapeBuffer();
+      const cx = -2.15;
+      const baseY = -1.32;
+      let idx = 0;
+
+      // 6,000 pts: Subtle crisp base line/grid footprint (x in [-3.55, -0.75], zero clipping)
+      for (let i = 0; i < 6000; i++) {
+        const isX = i % 2 === 0;
+        const line = Math.floor(i / 2) % 10;
+        const u = (line / 9) * 2 - 1;
+        const v = rand() * 2 - 1;
+        const x = cx + (isX ? v : u) * 1.42;
+        const z = (isX ? u : v) * 0.56;
+        setP(b, idx++, x, baseY, z, C_STEEL, 1.45, 0.65, cx, 0, 0, 1, 0, 0.0, rand(), 0, 0.008);
+      }
+
+      // 64,000 pts across 5 rectangular columns
+      const cols = [
+        { x: -1.10, h: 2.68, ok: true,  pts: 26000 }, // 99.9%
+        { x: -0.55, h: 0.58, ok: false, pts: 10500 }, // 15.4%
+        { x:  0.00, h: 0.58, ok: false, pts: 10500 }, // 15.4%
+        { x:  0.55, h: 0.34, ok: false, pts: 9000 },  // 8.3%
+        { x:  1.10, h: 0.08, ok: false, pts: 8000 }   // 0.0%
+      ];
+
+      const colW = 0.36;
+      cols.forEach((c) => {
+        for (let i = 0; i < c.pts; i++) {
+          let lx, ly, lz;
+          const mode = i % 10;
+          if (mode <= 1) {
+            lx = c.x + (rand() - 0.5) * colW;
+            ly = baseY + c.h;
+            lz = (rand() - 0.5) * colW;
+          } else {
+            const face = i % 4;
+            const u = (rand() - 0.5) * colW;
+            const half = colW * 0.5;
+            if (face === 0)      { lx = c.x + u; lz = half; }
+            else if (face === 1) { lx = c.x + u; lz = -half; }
+            else if (face === 2) { lx = c.x + half; lz = u; }
+            else                 { lx = c.x - half; lz = u; }
+            ly = baseY + rand() * c.h;
+          }
+          const hFrac = Math.max(0, (ly - baseY) / Math.max(0.01, c.h));
+          const col = c.ok ? (hFrac > 0.72 || mode <= 1 ? C_MINT : C_EMERALD) : (mode <= 1 ? C_CORAL_HI : C_CORAL);
+          setP(b, idx++, cx + lx, ly, lz, col, mode <= 1 ? 2.1 : 1.75, 0.94, cx, 0, 0, 1, 0, 0.0, hFrac, 2.0, 0.008);
+        }
+      });
+      return b;
+    }
+
+    // ---------------------------------------------------------
+    // STATE 7 (Slide 08, AMBIENT DECOR): Isometric Telemetry Matrix (alpha ~0.34)
+    // ---------------------------------------------------------
+    function buildState08_MatrixDecor() {
+      const b = makeShapeBuffer();
+      const isoEuler = new THREE.Euler(0.32, 0.65, 0);
+      const isoQ = new THREE.Quaternion().setFromEuler(isoEuler);
+      const v = new THREE.Vector3();
+
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        if (i < 55000) {
+          // Isometric grid lines
+          const isU = i % 2 === 0;
+          const lineIdx = Math.floor(i / 2) % 24;
+          const a = (lineIdx / 23) * 2 - 1;
+          const t = rand() * 2 - 1;
+          v.set((isU ? t : a) * 4.4, 0, (isU ? a : t) * 2.8).applyQuaternion(isoQ);
+          setP(b, i, v.x, v.y - 1.95, v.z - 0.8, C_STEEL, 1.45, 0.32, 0, -1.95, 0, 1, 0, 0.0, (a + 1) * 0.5, 1.5, 0.02);
+        } else {
+          // Sparse glowing emerald telemetry nodes on grid intersections
+          const gx = (Math.floor(rand() * 12) - 5.5) * 0.72;
+          const gz = (Math.floor(rand() * 8) - 3.5) * 0.68;
+          v.set(gx, 0.05, gz).applyQuaternion(isoQ);
+          setP(
+            b,
+            i,
+            v.x + (rand() - 0.5) * 0.08,
+            v.y - 1.95 + (rand() - 0.5) * 0.08,
+            v.z - 0.8 + (rand() - 0.5) * 0.08,
+            C_MINT,
+            2.1,
+            0.38,
+            0,
+            -1.95,
+            0,
+            1,
+            0,
+            0.0,
+            (gx + 4.4) / 8.8,
+            2.8,
+            0.025
+          );
+        }
+      }
+      return b;
+    }
+
+    // ---------------------------------------------------------
+    // STATE 8 (Slide 09, RIGHT): Stabilized Radiant VIGILIA Eye Emblem
+    // ---------------------------------------------------------
+    function buildState09_Astrolabe() {
+      return buildVigiliaEye(true);
+    }
+
+    // Build all 9 states (slides 0..8)
+    const states = [
+      buildState01_RadarAperture(),
+      buildState02_HorizonDecor(),
+      buildState03_Breakthrough(),
+      buildState04_Accelerator(),
+      buildState05_OrbitsDecor(),
+      buildState06_BlackVsWhite(),
+      buildState07_TelegramBars(),
+      buildState08_MatrixDecor(),
+      buildState09_Astrolabe()
+    ];
+
+    // =========================================================
+    // THREE.JS RENDERER & SINGLE SHADERMATERIAL POINTS OBJECT
+    // =========================================================
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: true,
+      powerPreference: 'high-performance'
+    });
+    const dpr = Math.min(window.devicePixelRatio, 2);
+    renderer.setPixelRatio(dpr);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 0.05, 10.6);
+
+    const s0 = states[0];
+    const geometry = new THREE.BufferGeometry();
+
+    const posAttr         = new THREE.BufferAttribute(new Float32Array(s0.pos), 3);
+    const targetPosAttr   = new THREE.BufferAttribute(new Float32Array(s0.pos), 3);
+    const colAttr         = new THREE.BufferAttribute(new Float32Array(s0.col), 3);
+    const targetColAttr   = new THREE.BufferAttribute(new Float32Array(s0.col), 3);
+    const spinAttr        = new THREE.BufferAttribute(new Float32Array(s0.spin), 4);
+    const targetSpinAttr  = new THREE.BufferAttribute(new Float32Array(s0.spin), 4);
+    const propsAttr       = new THREE.BufferAttribute(new Float32Array(s0.props), 4);
+    const targetPropsAttr = new THREE.BufferAttribute(new Float32Array(s0.props), 4);
+    const metaAttr        = new THREE.BufferAttribute(new Float32Array(s0.meta), 4);
+    const targetMetaAttr  = new THREE.BufferAttribute(new Float32Array(s0.meta), 4);
+
+    const seedArr = new Float32Array(PARTICLE_COUNT);
+    for (let i = 0; i < PARTICLE_COUNT; i++) seedArr[i] = rand();
+
+    // 11 attributes total (safely below WebGL MAX_VERTEX_ATTRIBS = 16)
+    geometry.setAttribute('position', posAttr);
+    geometry.setAttribute('aTargetPos', targetPosAttr);
+    geometry.setAttribute('aColor', colAttr);
+    geometry.setAttribute('aTargetColor', targetColAttr);
+    geometry.setAttribute('aSpin', spinAttr);
+    geometry.setAttribute('aTargetSpin', targetSpinAttr);
+    geometry.setAttribute('aPropsA', propsAttr);
+    geometry.setAttribute('aPropsB', targetPropsAttr);
+    geometry.setAttribute('aMetaA', metaAttr);
+    geometry.setAttribute('aMetaB', targetMetaAttr);
+    geometry.setAttribute('aSeed', new THREE.BufferAttribute(seedArr, 1));
+
+    const uniforms = {
+      uTime: { value: 0 },
+      uMorph: { value: 1.0 },
+      uGlitch: { value: 0.0 },
+      uMouse: { value: new THREE.Vector2(0, 0) },
+      uBaseTilt: { value: new THREE.Vector2(0.08, -0.15) },
+      uPixelRatio: { value: dpr }
+    };
+
+    const vertexShader = /* glsl */ `
+      attribute vec3 aTargetPos;
+      attribute vec3 aColor;
+      attribute vec3 aTargetColor;
+      attribute vec4 aSpin;
+      attribute vec4 aTargetSpin;
+      attribute vec4 aPropsA; // size, alpha, phase, pulseSpeed
+      attribute vec4 aPropsB;
+      attribute vec4 aMetaA;  // pivotX, pivotY, noiseAmp, unused
+      attribute vec4 aMetaB;
+      attribute float aSeed;
+
+      uniform float uTime;
+      uniform float uMorph;
+      uniform float uGlitch;
+      uniform vec2 uMouse;
+      uniform vec2 uBaseTilt;
+      uniform float uPixelRatio;
+
+      varying vec3 vColor;
+      varying float vAlpha;
+      varying float vPacket;
+      varying float vGlitchFlash;
+
+      // 3D Simplex Noise
+      vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+      vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }
+      vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+
+      float snoise(vec3 v) {
+        const vec2 C = vec2(1.0 / 6.0, 1.0 / 3.0);
+        const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+        vec3 i  = floor(v + dot(v, C.yyy));
+        vec3 x0 = v - i + dot(i, C.xxx);
+        vec3 g = step(x0.yzx, x0.xyz);
+        vec3 l = 1.0 - g;
+        vec3 i1 = min(g.xyz, l.zxy);
+        vec3 i2 = max(g.xyz, l.zxy);
+        vec3 x1 = x0 - i1 + C.xxx;
+        vec3 x2 = x0 - i2 + C.yyy;
+        vec3 x3 = x0 - D.yyy;
+        i = mod289(i);
+        vec4 p = permute(permute(permute(
+                  i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+        float n_ = 0.142857142857;
+        vec3 ns = n_ * D.wyz - D.xzx;
+        vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+        vec4 x_ = floor(j * ns.z);
+        vec4 y_ = floor(j - 7.0 * x_);
+        vec4 x = x_ * ns.x + ns.yyyy;
+        vec4 y = y_ * ns.x + ns.yyyy;
+        vec4 h = 1.0 - abs(x) - abs(y);
+        vec4 b0 = vec4(x.xy, y.xy);
+        vec4 b1 = vec4(x.zw, y.zw);
+        vec4 s0 = floor(b0) * 2.0 + 1.0;
+        vec4 s1 = floor(b1) * 2.0 + 1.0;
+        vec4 sh = -step(h, vec4(0.0));
+        vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
+        vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
+        vec3 p0 = vec3(a0.xy, h.x);
+        vec3 p1 = vec3(a0.zw, h.y);
+        vec3 p2 = vec3(a1.xy, h.z);
+        vec3 p3 = vec3(a1.zw, h.w);
+        vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));
+        p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+        vec4 nM = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+        nM = nM * nM;
+        return 42.0 * dot(nM * nM, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+      }
+
+      vec3 multiCurl(vec3 p, float t) {
+        vec3 q1 = p * 0.72 + vec3(t * 0.14, -t * 0.11, t * 0.12);
+        vec3 q2 = p * 1.95 - vec3(t * 0.22, t * 0.17, -t * 0.19);
+        vec3 c1 = vec3(snoise(q1), snoise(q1 + vec3(19.3)), snoise(q1 + vec3(41.7)));
+        vec3 c2 = vec3(snoise(q2 + vec3(7.1)), snoise(q2 + vec3(29.5)), snoise(q2 + vec3(53.2)));
+        return c1 * 0.7 + c2 * 0.3;
+      }
+
+      vec3 rotateAxis(vec3 v, vec3 axis, float angle) {
+        float c = cos(angle);
+        float s = sin(angle);
+        return v * c + cross(axis, v) * s + axis * dot(axis, v) * (1.0 - c);
+      }
+
+      void main() {
+        float m = smoothstep(0.0, 1.0, uMorph);
+
+        vec2 pivA = aMetaA.xy;
+        vec2 pivB = aMetaB.xy;
+
+        // Rodrigues spin around each particle's own target/source ring axis
+        vec3 relA = position - vec3(pivA, 0.0);
+        vec3 relB = aTargetPos - vec3(pivB, 0.0);
+        relA = rotateAxis(relA, normalize(aSpin.xyz + vec3(0.0, 0.0001, 0.0)), uTime * aSpin.w);
+        relB = rotateAxis(relB, normalize(aTargetSpin.xyz + vec3(0.0, 0.0001, 0.0)), uTime * aTargetSpin.w);
+
+        vec3 spunA = relA + vec3(pivA, 0.0);
+        vec3 spunB = relB + vec3(pivB, 0.0);
+        vec3 morphedPos = mix(spunA, spunB, m);
+        vec2 pivot = mix(pivA, pivB, m);
+
+        // Apply gentle per-slide isometric tilt around pivot
+        vec3 relTilt = morphedPos - vec3(pivot, 0.0);
+        float cy = cos(uBaseTilt.y); float sy = sin(uBaseTilt.y);
+        relTilt.xz = mat2(cy, -sy, sy, cy) * relTilt.xz;
+        float cx = cos(uBaseTilt.x); float sx = sin(uBaseTilt.x);
+        relTilt.yz = mat2(cx, -sx, sx, cx) * relTilt.yz;
+        morphedPos = relTilt + vec3(pivot, 0.0);
+
+        // Fluid transition arc
+        float arc = sin(m * 3.14159265);
+        morphedPos.y += arc * (aSeed - 0.5) * 0.55;
+        morphedPos.z += arc * cos(aSeed * 12.56) * 0.65;
+
+        // Multi-frequency curl noise breathing
+        float amp = mix(aMetaA.z, aMetaB.z, m);
+        morphedPos += multiCurl(morphedPos, uTime + aSeed * 0.25) * (amp + arc * 0.16);
+
+        // Soft mouse interaction
+        vec3 cursorWorld = vec3(uMouse.x * 4.6, uMouse.y * 2.8, 0.35);
+        vec3 toCursor = morphedPos - cursorWorld;
+        float distC = length(toCursor.xy);
+        float mouseInf = exp(-distC * distC * 0.65);
+        morphedPos += normalize(toCursor + vec3(0.0001)) * mouseInf * 0.15;
+
+        // Physical 3D Micro-Glitch: Scanline Tear (Y bands shifted ±0.25..0.45 in X/Z) + 3D Particle Scatter
+        float timeTick = floor(uTime * 24.0);
+        float bandId = floor(morphedPos.y * 9.0 + timeTick);
+        float bandHash = fract(sin(bandId * 127.1 + timeTick * 31.7) * 43758.5453);
+        float tearActive = step(0.58, bandHash) * uGlitch;
+        float tearSign = bandHash > 0.79 ? 1.0 : -1.0;
+        float tearMag = 0.25 + 0.20 * fract(bandHash * 17.3);
+        morphedPos.x += tearActive * tearSign * tearMag;
+        morphedPos.z += tearActive * (fract(bandHash * 9.1) - 0.5) * 0.55;
+
+        // High-frequency 3D vibration and micro-particle scatter across X, Y, Z
+        float vibTick = floor(uTime * 36.0);
+        vec3 vibRand = vec3(
+          fract(sin((aSeed * 91.7 + vibTick) * 12.9898) * 43758.5453) - 0.5,
+          fract(sin((aSeed * 53.3 + vibTick) * 78.233) * 43758.5453) - 0.5,
+          fract(sin((aSeed * 37.9 + vibTick) * 39.425) * 43758.5453) - 0.5
+        ) * 2.0;
+        float scatterMask = step(0.62, fract(aSeed * 19.3 + vibTick * 0.13)) * uGlitch;
+        morphedPos += vibRand * (0.22 * uGlitch + 0.12 * scatterMask);
+
+        vGlitchFlash = max(tearActive, scatterMask);
+
+        // Directional telemetry packet wave along curves/rings/trees
+        vec4 props = mix(aPropsA, aPropsB, m);
+        float phase = props.z;
+        float pSpeed = props.w;
+        float wave = pSpeed > 0.01 ? pow(max(0.0, sin((phase * 6.2831853 - uTime * pSpeed) * 2.0)), 10.0) : 0.0;
+        vPacket = wave;
+
+        vColor = mix(aColor, aTargetColor, m);
+        vAlpha = props.y;
+
+        vec4 mvPosition = modelViewMatrix * vec4(morphedPos, 1.0);
+        gl_Position = projectionMatrix * mvPosition;
+
+        float baseSize = props.x;
+        float boost = 1.0 + wave * 0.55 + vGlitchFlash * 0.85 + mouseInf * 0.35;
+        gl_PointSize = clamp(baseSize * boost * uPixelRatio * (11.2 / -mvPosition.z), 1.15, 20.0);
+      }
+    `;
+
+    const fragmentShader = /* glsl */ `
+      varying vec3 vColor;
+      varying float vAlpha;
+      varying float vPacket;
+      varying float vGlitchFlash;
+
+      void main() {
+        vec2 uv = gl_PointCoord - vec2(0.5);
+        float dist = length(uv);
+        if (dist > 0.5) discard;
+
+        float core = 1.0 - smoothstep(0.0, 0.22, dist);
+        float edge = 1.0 - smoothstep(0.22, 0.50, dist);
+        float shapeAlpha = core * 0.7 + edge * 0.5;
+
+        float luma = dot(vColor, vec3(0.299, 0.587, 0.114));
+        float isBright = smoothstep(0.10, 0.40, luma);
+
+        vec3 col = mix(vColor, vec3(1.0), core * 0.35 * isBright);
+        col = mix(col, vec3(0.204, 0.827, 0.600), vPacket * 0.45 * isBright);
+        col = mix(col, vec3(0.973, 0.980, 0.988), vGlitchFlash * 0.9);
+
+        float finalAlpha = clamp(shapeAlpha * vAlpha * (1.0 + vPacket * 0.25 + vGlitchFlash * 0.6), 0.0, 0.98);
+        gl_FragColor = vec4(col, finalAlpha);
+      }
+    `;
+
+    const material = new THREE.ShaderMaterial({
+      uniforms,
+      vertexShader,
+      fragmentShader,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.NormalBlending
+    });
+
+    const points = new THREE.Points(geometry, material);
+    points.frustumCulled = false;
+    scene.add(points);
+
+    // Morph state management
+    let morphProgress = 1.0;
+
+    function easeInOutCubic(x) {
+      return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+    }
+
+    function bakeCurrentIntoSource() {
+      const m = easeInOutCubic(morphProgress);
+      const attrs = [
+        [posAttr, targetPosAttr, 3],
+        [colAttr, targetColAttr, 3],
+        [spinAttr, targetSpinAttr, 4],
+        [propsAttr, targetPropsAttr, 4],
+        [metaAttr, targetMetaAttr, 4]
+      ];
+      for (const [a, b, stride] of attrs) {
+        const arrA = a.array;
+        const arrB = b.array;
+        const len = PARTICLE_COUNT * stride;
+        for (let i = 0; i < len; i++) {
+          arrA[i] = arrA[i] + (arrB[i] - arrA[i]) * m;
+        }
+        a.needsUpdate = true;
+      }
+    }
+
+    function morphToSlide(slideIdx) {
+      const s = states[slideIdx];
+      if (!s) return;
+
+      bakeCurrentIntoSource();
+      targetPosAttr.array.set(s.pos);
+      targetColAttr.array.set(s.col);
+      targetSpinAttr.array.set(s.spin);
+      targetPropsAttr.array.set(s.props);
+      targetMetaAttr.array.set(s.meta);
+
+      targetPosAttr.needsUpdate = true;
+      targetColAttr.needsUpdate = true;
+      targetSpinAttr.needsUpdate = true;
+      targetPropsAttr.needsUpdate = true;
+      targetMetaAttr.needsUpdate = true;
+
+      morphProgress = 0.0;
+      uniforms.uMorph.value = 0.0;
+    }
+
+    function updateSlideUI() {
+      curNumEl.textContent = String(currentSlide + 1).padStart(2, '0');
+      progressFill.style.width = (((currentSlide + 1) / TOTAL_SLIDES) * 100) + '%';
+    }
+
+    function goToSlide(index) {
+      const next = Math.max(0, Math.min(TOTAL_SLIDES - 1, index));
+      if (next === currentSlide) return;
+      slides[currentSlide].classList.remove('active');
+      currentSlide = next;
+      slides[currentSlide].classList.add('active');
+      updateSlideUI();
+      morphToSlide(currentSlide);
+    }
+
+    function nextSlide() {
+      goToSlide(currentSlide < TOTAL_SLIDES - 1 ? currentSlide + 1 : 0);
+    }
+
+    function prevSlide() {
+      goToSlide(currentSlide > 0 ? currentSlide - 1 : TOTAL_SLIDES - 1);
+    }
+
+    document.getElementById('prev-zone').addEventListener('click', prevSlide);
+    document.getElementById('next-zone').addEventListener('click', nextSlide);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === ' ') {
+        if (document.activeElement && document.activeElement.id === 'demo-link') return;
+        e.preventDefault();
+        nextSlide();
+      }
+    });
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let smoothMouseX = 0;
+    let smoothMouseY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseY = -(e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    window.addEventListener('resize', () => {
+      const newDpr = Math.min(window.devicePixelRatio, 2);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setPixelRatio(newDpr);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      uniforms.uPixelRatio.value = newDpr;
+    });
+
+    const tiltBySlide = [
+      { rx: 0.06, ry: -0.24 }, // 01 VIGILIA Eye (angled slightly toward left title)
+      { rx: 0.04, ry: 0.0 },   // 02 Horizon Decor
+      { rx: 0.08, ry: -0.1 },  // 03 Sphere Concept Drift
+      { rx: 0.14, ry: -0.14 }, // 04 Closed Interception Polygon
+      { rx: 0.05, ry: 0.0 },   // 05 Orbits Decor
+      { rx: 0.16, ry: 0.0 },   // 06 Dual 1.7x1.7x1.7 Cubes
+      { rx: 0.18, ry: 0.22 },  // 07 5 Rectangular Columns
+      { rx: 0.04, ry: 0.0 },   // 08 Matrix Decor
+      { rx: 0.04, ry: -0.08 }  // 09 Stabilized VIGILIA Eye
+    ];
+
+    let lastTime = performance.now();
+    const clock = new THREE.Clock();
+
+    function animate(now) {
+      requestAnimationFrame(animate);
+      const dt = Math.min(0.05, (now - lastTime) / 1000);
+      lastTime = now;
+
+      const t = clock.getElapsedTime();
+      uniforms.uTime.value = t;
+
+      // Advance morph (~0.95s)
+      if (morphProgress < 1.0) {
+        morphProgress = Math.min(1.0, morphProgress + dt * 1.1);
+        uniforms.uMorph.value = easeInOutCubic(morphProgress);
+      }
+
+      // Periodic glitch burst every ~4.0s (2-3 rapid impulses)
+      const gCycle = t % 4.0;
+      let glitchVal = 0.0;
+      if (gCycle < 0.085) {
+        glitchVal = 1.0 - gCycle / 0.085;
+      } else if (gCycle > 0.13 && gCycle < 0.22) {
+        glitchVal = 1.0 - (gCycle - 0.13) / 0.09;
+      } else if (gCycle > 0.27 && gCycle < 0.36) {
+        glitchVal = (1.0 - (gCycle - 0.27) / 0.09) * 0.85;
+      }
+      uniforms.uGlitch.value = glitchVal;
+
+      smoothMouseX += (mouseX - smoothMouseX) * 0.07;
+      smoothMouseY += (mouseY - smoothMouseY) * 0.07;
+      uniforms.uMouse.value.set(smoothMouseX, smoothMouseY);
+
+      camera.position.x = smoothMouseX * 0.3;
+      camera.position.y = 0.05 + smoothMouseY * 0.2;
+      camera.lookAt(0, 0, 0);
+
+      const targetTilt = tiltBySlide[currentSlide] || { rx: 0.08, ry: 0 };
+      const swayY = Math.sin(t * 0.38) * 0.08;
+      const swayX = Math.cos(t * 0.32) * 0.04;
+      uniforms.uBaseTilt.value.x += (targetTilt.rx + swayX - uniforms.uBaseTilt.value.x) * 0.06;
+      uniforms.uBaseTilt.value.y += (targetTilt.ry + swayY - uniforms.uBaseTilt.value.y) * 0.06;
+
+      renderer.render(scene, camera);
+    }
+
+    // Load exact pixel-art VIGILIA eye emblem (/vigilia-eye.png) and populate States 0 & 8
+    const eyeImg = new Image();
+    eyeImg.src = '/vigilia-eye.png';
+    eyeImg.onload = () => {
+      states[0] = buildEyeFromImage(eyeImg, false);
+      states[8] = buildEyeFromImage(eyeImg, true);
+      if (currentSlide === 0 || currentSlide === 8) {
+        const activeState = states[currentSlide];
+        posAttr.array.set(activeState.pos);
+        colAttr.array.set(activeState.col);
+        spinAttr.array.set(activeState.spin);
+        propsAttr.array.set(activeState.props);
+        metaAttr.array.set(activeState.meta);
+        targetPosAttr.array.set(activeState.pos);
+        targetColAttr.array.set(activeState.col);
+        targetSpinAttr.array.set(activeState.spin);
+        targetPropsAttr.array.set(activeState.props);
+        targetMetaAttr.array.set(activeState.meta);
+
+        posAttr.needsUpdate = true;
+        colAttr.needsUpdate = true;
+        spinAttr.needsUpdate = true;
+        propsAttr.needsUpdate = true;
+        metaAttr.needsUpdate = true;
+        targetPosAttr.needsUpdate = true;
+        targetColAttr.needsUpdate = true;
+        targetSpinAttr.needsUpdate = true;
+        targetPropsAttr.needsUpdate = true;
+        targetMetaAttr.needsUpdate = true;
+        morphProgress = 1.0;
+        uniforms.uMorph.value = 1.0;
+      }
+    };
+
+    updateSlideUI();
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
