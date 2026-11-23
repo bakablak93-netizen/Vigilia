@@ -1,0 +1,28 @@
+# Version control & IDE
+.git
+.gitignore
+.vscode
+.idea
+
+# Node / Frontend build artifacts
+frontend/node_modules
+frontend/dist
+node_modules
+
+# Python virtual environments & caches
+.venv
+backend/.venv
+venv
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Local databases, logs, and runtime caches
+*.db
+*.sqlite
+*.sqlite3
+logs/
+*.joblib
+.env
+.env.*

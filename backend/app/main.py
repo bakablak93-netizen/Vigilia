@@ -2,9 +2,12 @@
 
 from copy import deepcopy
 from contextlib import asynccontextmanager
+from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from .config import get_settings
 from .database import SessionLocal, init_db
@@ -92,6 +95,29 @@ def create_app() -> FastAPI:
     app.include_router(reports.router)
     app.include_router(demo.router)
     app.include_router(external_engines.router)
+
+    dist_candidates = [
+        Path(__file__).resolve().parents[2] / "frontend" / "dist",
+        Path.cwd() / "frontend" / "dist",
+    ]
+    frontend_dist = next((p for p in dist_candidates if (p / "index.html").is_file()), None)
+    if frontend_dist is not None:
+        assets_dir = frontend_dist / "assets"
+        if assets_dir.is_dir():
+            app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="frontend-assets")
+
+        dist_root = frontend_dist.resolve()
+        index_html = dist_root / "index.html"
+
+        @app.get("/{full_path:path}", include_in_schema=False)
+        def serve_spa(full_path: str):
+            if full_path == "api" or full_path.startswith("api/"):
+                raise HTTPException(status_code=404, detail="Not Found")
+            if full_path:
+                candidate = (dist_root / full_path).resolve()
+                if candidate.is_relative_to(dist_root) and candidate.is_file():
+                    return FileResponse(str(candidate))
+            return FileResponse(str(index_html))
 
     return app
 
